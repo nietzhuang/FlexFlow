@@ -1,0 +1,4 @@
+[0m[[0m[31merror[0m] [0m[0m/Users/nietzhuang/Desktop/FlexFlow/src/test/scala/KernelBuffer.scala:153:44: not found: value kInt[0m
+[0m[[0m[31merror[0m] [0m[0m              c.io.BufferIO.DataOut.expect(kInt.U)[0m
+[0m[[0m[31merror[0m] [0m[0m                                           ^[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m
