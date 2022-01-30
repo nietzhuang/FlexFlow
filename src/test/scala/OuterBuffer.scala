@@ -4,14 +4,14 @@ import scala.util._
 import org.scalatest.flatspec.AnyFlatSpec
 
 
-class IntraBufferTester extends AnyFlatSpec with ChiselScalatestTester {
-  behavior of "IntraBuffer"
+class OuterBufferTester extends AnyFlatSpec with ChiselScalatestTester {
+  behavior of "OuterBuffer"
 
   val MaxCycle = 20
   val depth = 8
   
   it should "pass" in {
-    test(new flexflow.intrabuf.IntraBuffer(16, depth, 16)).withAnnotations(Seq(WriteVcdAnnotation)) {c =>
+    test(new flexflow.outerbuf.OuterBuffer(16, depth, 16)).withAnnotations(Seq(WriteVcdAnnotation)) {c =>
 
       c.io.BufferIO.Enable.poke(false.B)
 

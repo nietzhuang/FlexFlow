@@ -1,1 +1,1 @@
-["Decoder","Mac","flexflow.intrabuf.IntraBuffer","flexflow.kernelbuf.KernelBuffer"]
+["Decoder","flexflow.intrabuf.IntraBuffer","flexflow.kernelbuf.KernelBuffer","flexflow.outerbuf.OuterBuffer","flexflow.pe.PE","flexflow.pe.ctrl.PECtrl","flexflow.pe.mac.Mac"]

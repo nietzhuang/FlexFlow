@@ -1,0 +1,31 @@
+[
+  {
+    "class":"firrtl.EmitCircuitAnnotation",
+    "emitter":"firrtl.VerilogEmitter"
+  },
+  {
+    "class":"firrtl.transforms.BlackBoxTargetDirAnno",
+    "targetDir":"."
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~PEController|PEController>io_BankIndex",
+    "sources":[
+      "~PEController|PEController>io_Schedule"
+    ]
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~PEController|PEController>io_KernelAddr",
+    "sources":[
+      "~PEController|PEController>io_Schedule"
+    ]
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~PEController|PEController>io_IntraAddr",
+    "sources":[
+      "~PEController|PEController>io_Schedule"
+    ]
+  }
+]

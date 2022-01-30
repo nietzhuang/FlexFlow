@@ -2,7 +2,7 @@ package flexflow.neuronbuf
 
 import chisel3._
 import chisel3.util._
-import flexflow.intrabuf._
+import flexflow.outerbuf._
 
 
 class NeuronBuffer(bitwidth: Int, depth: Int, numBank: Int) extends Module {
@@ -11,10 +11,10 @@ class NeuronBuffer(bitwidth: Int, depth: Int, numBank: Int) extends Module {
     val BankIndex = Input(UInt(log2Up(numBank).W))
   }) 
 
-  val Intrabuf = Module(new flexflow.intrabuf.IntraBuffer(bitwidth, depth, numBank))
+  val buf = Module(new flexflow.outerbuf.OuterBuffer(bitwidth, depth, numBank))
 
-  io.BufferIO <> Intrabuf.io.BufferIO
-  io.BankIndex <> Intrabuf.io.BankIndex
+  io.BufferIO <> buf.io.BufferIO
+  io.BankIndex <> buf.io.BankIndex
 
 }
 
