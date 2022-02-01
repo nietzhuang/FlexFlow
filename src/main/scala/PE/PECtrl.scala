@@ -20,7 +20,8 @@ class PECtrl(
   
   val io = IO(new Bundle {
     val Mode            = Input(UInt(3.W))
-    val Schedule        = Input(UInt(24.W))  // from decoder (assume maximum is 15)
+    val Schedule        = Input(UInt(24.W)) 
+    val ScheduleSize    = Input(UInt(7.W))
     val KernelAddr      = Output(UInt(log2Up(bankdepth).W))
     val KernelBankIdx   = Output(UInt(log2Up(numBank).W))
     val KernelBufRW     = Output(Bool())
@@ -40,6 +41,7 @@ class PECtrl(
   val stateReg = RegInit(init)
 
   // Decode the dataflow parameters
+  val NeuronSize = io.ScheduleSize
   val Tm = io.Schedule(23, 20)
   val Tn = io.Schedule(19, 16)
   val Ti = io.Schedule(15, 12)
@@ -50,8 +52,9 @@ class PECtrl(
   val GroupRowIdx = PERowIdx / (Tr * Tc)
   val GroupColIdx = PEColIdx / (Ti * Tj)
   val Group = RegInit(Cat(GroupRowIdx, GroupColIdx))  // former 4-bit for m, latter 4-bit for n.
-  //val boundary = Math.ceil((Ti * Tj) / (Tr * Tc)).toInt.U
-  val boundary = (Ti * Tj) / (Tr * Tc)
+  //val KernelBoundary = Math.ceil((Ti * Tj) / (Tr * Tc)).toInt.U
+  val KernelBoundary = (Ti * Tj) / (Tr * Tc)
+  val NeuronBoundary = NeuronSize / (Tr * Tc)
 
   val tm = PERowIdx / (numBank.U / Tm)
   val tn = PEColIdx / (numBank.U / Tn)
@@ -61,13 +64,18 @@ class PECtrl(
   val tr = ((PERowIdx + 1.U) - tm * Tc * Tr - tc * Tr) / Tr
 
   val cntMac = RegInit(0.U)
-  val slotPtr = RegInit(0.U)
-  val cntAddr = RegInit(0.U)
-  val cntbank = RegInit(0.U)
+  val KernelSlotPtr = RegInit(0.U)
+  val cntKBufAddr = RegInit(0.U)
+  val cntKBufBank = RegInit(0.U)
+  val NeuronSlotPtr = RegInit(0.U)
+  val cntNBufAddr = RegInit(0.U)
+  val cntNBufBank = RegInit(PEColIdx)
 
   // Event for reading from outter buffer to local store.
   val Load2 = (io.Mode === 2.U)  
-  val readDone = RegInit(false.B)
+  val KernelReadDone = RegInit(false.B)
+  val NeuronReadDone = RegInit(false.B)
+  val Load2Done = (KernelReadDone | NeuronReadDone)
   val macDone = RegInit(false.B)
   
   switch (stateReg) {
@@ -79,7 +87,7 @@ class PECtrl(
       }
     }
     is(readouter) {
-      when(readDone === true.B) {
+      when(Load2Done === true.B) {
         stateReg := mac
       }.otherwise {
         stateReg := init  
@@ -100,6 +108,12 @@ class PECtrl(
   io.KernelBufEn := false.B
   io.KernelIntraAddr := 0.U
   io.KernelIntraRW := false.B
+  io.NeuronAddr := 0.U 
+  io.NeuronBankIdx := 0.U
+  io.NeuronBufRW := false.B
+  io.NeuronBufEn := false.B
+  io.NeuronIntraAddr := 0.U
+  io.NeuronIntraRW := false.B
   io.MacEnable := false.B
   switch(stateReg) {
     is(init) {
@@ -109,48 +123,81 @@ class PECtrl(
       io.KernelBufEn := false.B
       io.KernelIntraAddr := 0.U
       io.KernelIntraRW := false.B
-      readDone := false.B
+      io.NeuronAddr := 0.U 
+      io.NeuronBankIdx := 0.U
+      io.NeuronBufRW := false.B
+      io.NeuronBufEn := false.B
+      io.NeuronIntraAddr := 0.U
+      io.NeuronIntraRW := false.B
+      KernelReadDone := false.B
+      NeuronReadDone := false.B
       macDone := false.B
     }
     is(readouter) {
       io.KernelBufRW := false.B  //!!  constant ?
       io.KernelBufEn := true.B
       io.KernelIntraRW := true.B
-      when(cntAddr < boundary) { 
-        io.KernelAddr := cntAddr 
-        io.KernelBankIdx := cntbank
-        io.KernelIntraAddr := slotPtr
+      io.NeuronBufRW := false.B 
+      io.NeuronBufEn := true.B
+      io.NeuronIntraRW := true.B
 
-        cntAddr := cntAddr + 1.U
-      }.otherwise { 
-        io.KernelAddr := 0.U
-        io.KernelBankIdx := cntbank + 1.U
-        io.KernelIntraAddr := slotPtr
+      // Kernel Control
+      when(KernelReadDone === false.B) {
+        when(cntKBufAddr < KernelBoundary) { 
+          io.KernelAddr := cntKBufAddr 
+          io.KernelBankIdx := cntKBufBank
+          io.KernelIntraAddr := KernelSlotPtr
 
-        cntAddr := 0.U
-        cntbank := cntbank + 1.U
+          cntKBufAddr := cntKBufAddr + 1.U
+        }.otherwise { 
+          io.KernelAddr := 0.U
+          io.KernelBankIdx := cntKBufBank + 1.U
+          io.KernelIntraAddr := KernelSlotPtr
+
+          cntKBufAddr := 0.U
+          cntKBufBank := cntKBufBank + 1.U
+        }
+        KernelSlotPtr := KernelSlotPtr + 1.U
+        //when(KernelSlotPtr === Tj) {  
+        //!! Have to check how much kernel inside a buffer..
+        when(KernelSlotPtr === Ti * Tj) {
+        //when(KernelSlotPtr == numkernel)
+          KernelReadDone := true.B
+          KernelSlotPtr := 0.U
+        }
       }
 
-      slotPtr := slotPtr + 1.U
-      //when(slotPtr === Tj) {  
-      //!! Have to check how much kernel inside a buffer..
-      when(slotPtr === Ti * Tj) {
-      //when(slotPtr == numkernel)
-        readDone := true.B
-        slotPtr := 0.U
+      // Neuron Control
+      when(NeuronReadDone === false.B) {
+        when(cntNBufAddr < NeuronBoundary) {
+          io.NeuronAddr := cntNBufAddr
+          io.NeuronBankIdx := cntNBufBank
+          io.NeuronIntraAddr := NeuronSlotPtr
+        
+          cntNBufAddr := cntNBufAddr + 1.U
+        }
+        /*.otherwise {
+        }*/
+
+        NeuronSlotPtr := cntNBufAddr
+        when(NeuronSlotPtr === NeuronBoundary) {
+          NeuronReadDone := true.B
+          NeuronSlotPtr := 0.U
+        }
       }
     }
     is(mac) {
+      io.KernelBufEn := false.B
       io.KernelIntraRW := false.B
       io.MacEnable := true.B
-      when((slotPtr + PEColIdx + tc * (Tj - 1.U)) < Tj) {
-        io.KernelIntraAddr := slotPtr + PEColIdx + tc * (Tj - 1.U)
+      when((KernelSlotPtr + PEColIdx + tc * (Tj - 1.U)) < Tj) {
+        io.KernelIntraAddr := KernelSlotPtr + PEColIdx + tc * (Tj - 1.U)
       }
       .otherwise {
-        io.KernelIntraAddr := slotPtr + PEColIdx + tc * (Tj - 1.U) - Tj
+        io.KernelIntraAddr := KernelSlotPtr + PEColIdx + tc * (Tj - 1.U) - Tj
       }
       //io.KernelIntraAddr := io.KernelIntraAddr + Tr
-      slotPtr := io.KernelIntraAddr + Tr
+      KernelSlotPtr := io.KernelIntraAddr + Tr
       cntMac := cntMac + 1.U
 
       when(cntMac === Ti * Tj) {

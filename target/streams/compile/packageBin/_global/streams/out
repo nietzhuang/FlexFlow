@@ -18,8 +18,6 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/nietzhuang/Desktop/FlexFlow/target/scala-2.12/classes/flexflow/neuronbuf/NeuronBuffer$$anon$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	flexflow/pe[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/nietzhuang/Desktop/FlexFlow/target/scala-2.12/classes/flexflow/pe[0m
-[0m[[0m[0mdebug[0m] [0m[0m	flexflow/pe/PE$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	  /Users/nietzhuang/Desktop/FlexFlow/target/scala-2.12/classes/flexflow/pe/PE$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	flexflow/pe/ctrl[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/nietzhuang/Desktop/FlexFlow/target/scala-2.12/classes/flexflow/pe/ctrl[0m
 [0m[[0m[0mdebug[0m] [0m[0m	flexflow/pe/ctrl/PECtrl$.class[0m
@@ -40,8 +38,6 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/nietzhuang/Desktop/FlexFlow/target/scala-2.12/classes/flexflow/pe/mac/Mac$delayedInit$body.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	flexflow/pe/mac/Mac$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/nietzhuang/Desktop/FlexFlow/target/scala-2.12/classes/flexflow/pe/mac/Mac$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	flexflow/pe/PE$delayedInit$body.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	  /Users/nietzhuang/Desktop/FlexFlow/target/scala-2.12/classes/flexflow/pe/PE$delayedInit$body.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	flexflow/pe/PE.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/nietzhuang/Desktop/FlexFlow/target/scala-2.12/classes/flexflow/pe/PE.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	flexflow/pe/PE$$anon$1.class[0m

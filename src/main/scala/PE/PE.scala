@@ -55,6 +55,8 @@ class PE(
 
 }
 
+/*
 object PE extends App {
   (new chisel3.stage.ChiselStage).emitVerilog(new PE(16, 0.U, 0.U, 16, 1024, 128))
 }
+*/
