@@ -1,0 +1,4 @@
+[0m[[0m[31merror[0m] [0m[0m/Users/nietzhuang/Desktop/FlexFlow/src/main/scala/PE/PECtrl.scala:62:27: object ceil is not a member of package flexflow[0m
+[0m[[0m[31merror[0m] [0m[0m  val MacCycle = flexflow.ceil((NeuronSize - Tj), Tc)[0m
+[0m[[0m[31merror[0m] [0m[0m                          ^[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m

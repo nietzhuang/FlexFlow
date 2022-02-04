@@ -1,0 +1,4 @@
+[0m[[0m[31merror[0m] [0m[0m/Users/nietzhuang/Desktop/FlexFlow/src/main/scala/PE/PECtrl.scala:229:9: not found: value NeuronIntraAddr[0m
+[0m[[0m[31merror[0m] [0m[0m        NeuronIntraAddr := NeuronSlotPtr[0m
+[0m[[0m[31merror[0m] [0m[0m        ^[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m
