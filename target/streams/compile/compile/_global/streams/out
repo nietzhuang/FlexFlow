@@ -1,4 +1,0 @@
-[0m[[0m[31merror[0m] [0m[0m/Users/nietzhuang/Desktop/FlexFlow/src/main/scala/PE/PE.scala:40:6: value KernelRW is not a member of chisel3.Bundle{val Enable: chisel3.Bool; val Mode: chisel3.UInt; val Schedule: chisel3.UInt; val KernelAddr: chisel3.UInt; val KernelBankIdx: chisel3.UInt; val KernelBufRW: chisel3.Bool; val KernelBufEn: chisel3.Bool; val NeuronAddr: chisel3.UInt; val NeuronBankIdx: chisel3.UInt; val NeuronBufRW: chisel3.Bool; val NeuronBufEn: chisel3.Bool; val DataOut: chisel3.UInt}[0m
-[0m[[0m[31merror[0m] [0m[0m  io.KernelRW := PECtrl.io.KernelBufRW[0m
-[0m[[0m[31merror[0m] [0m[0m     ^[0m
-[0m[[0m[31merror[0m] [0m[0mone error found[0m
