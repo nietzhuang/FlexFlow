@@ -1,12 +1,10 @@
-[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(BufferTester, org.scalatest.tools.Framework$$anon$1@2f1584c5, false, [SuiteSelector])[0m
-[0m[[0m[0minfo[0m] [0m[0m[32mBufferTester:[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- should test SRAM[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- should test Kernal Buffer[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- should test Neuron Buffer[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 21 seconds, 371 milliseconds.[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 3[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(DecoderTester, org.scalatest.tools.Framework$$anon$1@5662d774, false, [SuiteSelector])[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mDecoderTester:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should test commands[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 1 second, 419 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 1[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 1, aborted 0[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 3, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 1, failed 0, canceled 0, ignored 0, pending 0[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32mAll tests passed.[0m[0m
 [0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	BufferTester[0m
+[0m[[0m[0mdebug[0m] [0m[0m	DecoderTester[0m

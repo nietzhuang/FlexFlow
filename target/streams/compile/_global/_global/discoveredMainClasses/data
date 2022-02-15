@@ -1,1 +1,1 @@
-["flexflow.AluPool","flexflow.Decoder","flexflow.PE","flexflow.buffer.IntraBuffer","flexflow.buffer.KernelBuffer","flexflow.buffer.OuterBuffer","flexflow.pe.PECtrl","flexflow.pe.mac.Mac"]
+["flexflow.Decode","flexflow.PE","flexflow.alu.ALUArray","flexflow.alu.AluPool","flexflow.buffer.IntraBuffer","flexflow.buffer.KernelBuffer","flexflow.buffer.NeuronBuffer","flexflow.buffer.OuterBuffer","flexflow.pe.PECtrl"]

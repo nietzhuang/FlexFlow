@@ -13,7 +13,7 @@ class SchePacket extends Bundle {
   val Tc  = UInt(4.W)
 }
 
-class Decoder(numPERow: Int, numPECol: Int) extends Module {
+class Decode(numPERow: Int, numPECol: Int) extends Module {
   val io = IO(new Bundle {
     val Valid         = Input(Bool())
     val Instruction   = Input(UInt(32.W))
@@ -24,6 +24,10 @@ class Decoder(numPERow: Int, numPECol: Int) extends Module {
   })
 
   val cnt = RegInit(0.U)
+  
+  val CommandParamReg = RegInit(0.U(32.W))
+  val SizeReg = RegInit(0.U(32.W))
+
 
   when(io.Valid === true.B) {
     cnt := cnt + 1.U
@@ -31,35 +35,30 @@ class Decoder(numPERow: Int, numPECol: Int) extends Module {
     cnt := 0.U
   }
 
-  io.Mode := 0.U
-  io.Schedule.Tm := 0.U 
-  io.Schedule.Tn := 0.U
-  io.Schedule.Ti := 0.U
-  io.Schedule.Tj := 0.U
-  io.Schedule.Tr := 0.U
-  io.Schedule.Tc := 0.U
-  io.Pooling := 0.U
-  io.ScheduleSize := 0.U
   when(io.Valid === true.B) {
     switch(cnt) {
-      is(0.U) {
-        io.Mode := io.Instruction(31, 29)
-        io.Schedule.Tm := io.Instruction(28, 25)
-        io.Schedule.Tn := io.Instruction(24, 21)
-        io.Schedule.Ti := io.Instruction(20, 17)
-        io.Schedule.Tj := io.Instruction(16, 13)
-        io.Schedule.Tr := io.Instruction(12, 9)
-        io.Schedule.Tc := io.Instruction(8, 5)
-        io.Pooling := io.Instruction(4, 3)
-      }
-      is(1.U) {
-        io.ScheduleSize := io.Instruction(6, 0)
-      }
+      is(0.U) { CommandParamReg := io.Instruction}
+      is(1.U) { SizeReg := io.Instruction}
     }
   }
+  // Clear register
+  when(CommandParamReg(31, 29) === "b011".U) {
+    CommandParamReg := 0.U(32.W)
+    SizeReg := 0.U(32.W)
+  }
+
+  io.Mode := CommandParamReg(31, 29)
+  io.Schedule.Tm := CommandParamReg(28, 25)
+  io.Schedule.Tn := CommandParamReg(24, 21)
+  io.Schedule.Ti := CommandParamReg(20, 17)
+  io.Schedule.Tj := CommandParamReg(16, 13)
+  io.Schedule.Tr := CommandParamReg(12, 9)
+  io.Schedule.Tc := CommandParamReg(8, 5)
+  io.Pooling := CommandParamReg(4, 3)
+  io.ScheduleSize := SizeReg(6, 0)
 
 }
 
-object Decoder extends App {
-  (new chisel3.stage.ChiselStage).emitVerilog(new Decoder(4, 4))
+object Decode extends App {
+  (new chisel3.stage.ChiselStage).emitVerilog(new Decode(4, 4), Array("--target-dir", "./generated/"))
 }

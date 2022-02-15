@@ -1,0 +1,123 @@
+$date
+2022-02-15T11:12+0000
+$end
+$version
+0.2
+$end
+$comment
+
+$end
+$timescale 1ns  $end
+$scope module Decode $end
+ $var wire 4 ! io_Schedule_Tj $end
+ $var wire 3 " io_Mode $end
+ $var wire 32 # SizeReg $end
+ $var wire 7 $ io_ScheduleSize $end
+ $var wire 32 % CommandParamReg $end
+ $var wire 1 & cnt $end
+ $var wire 32 ' io_Instruction $end
+ $var wire 4 ( io_Schedule_Tc $end
+ $var wire 1 ) io_Valid $end
+ $var wire 4 * io_Schedule_Tr $end
+ $var wire 4 + io_Schedule_Ti $end
+ $var wire 1 , clock $end
+ $var wire 4 - io_Schedule_Tn $end
+ $var wire 2 . io_Pooling $end
+ $var wire 1 / reset $end
+ $var wire 4 0 io_Schedule_Tm $end
+$upscope $end
+$enddefinitions $end
+$dumpvars
+b00 .
+b000 "
+0&
+b00000000000000000000000000000000 '
+b0000 (
+b0000 !
+b0000 0
+0/
+b00000000000000000000000000000000 #
+b0000 *
+0)
+b0000 +
+b0000000 $
+b0000 -
+0,
+b00000000000000000000000000000000 %
+$end
+#0
+1/
+#1
+1,
+#6
+b00011110100000101000001000100000 '
+0/
+0,
+#11
+1,
+#16
+0,
+1)
+#21
+b0100 !
+b1111 0
+b0100 -
+b00011110100000101000001000100000 %
+1&
+b0001 *
+b0001 +
+b0001 (
+1,
+#26
+b00000000000000000000000000000111 '
+0,
+#31
+0&
+b00000000000000000000000000000111 #
+b0000111 $
+1,
+#36
+0,
+0)
+#41
+1,
+#46
+0,
+#51
+1,
+#56
+b01100000000100110111111100000001 '
+0,
+1)
+#61
+b1011 !
+b0000 0
+b0000 -
+b01100000000100110111111100000001 %
+b011 "
+1&
+b1111 *
+b1001 +
+b1000 (
+1,
+#66
+0,
+0)
+#71
+b0000 !
+b00000000000000000000000000000000 %
+b000 "
+0&
+b00000000000000000000000000000000 #
+b0000 *
+b0000000 $
+b0000 +
+b0000 (
+1,
+#76
+0,
+#81
+1,
+#86
+b00000000000000000000000000000000 '
+0,

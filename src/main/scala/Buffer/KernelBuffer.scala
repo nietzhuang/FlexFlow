@@ -14,11 +14,9 @@ class KernelBuffer(bitwidth: Int, depth: Int, numBank: Int) extends Module {
   io.BufferIO <> buf.io.BufferIO
   io.BankIndex <> buf.io.BankIndex
 
-
 }
 
 
-
 object KernelBuffer extends App {
-  (new chisel3.stage.ChiselStage).emitVerilog(new KernelBuffer(16, 1024, 16))
+  (new chisel3.stage.ChiselStage).emitVerilog(new KernelBuffer(16, 1024, 16), Array("--target-dir", "./generated/"))
 }

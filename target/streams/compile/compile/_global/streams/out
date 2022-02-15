@@ -1,4 +1,6 @@
-[0m[[0m[31merror[0m] [0m[0m/Users/nietzhuang/Desktop/FlexFlow/src/main/scala/PE/PECtrl.scala:229:9: not found: value NeuronIntraAddr[0m
-[0m[[0m[31merror[0m] [0m[0m        NeuronIntraAddr := NeuronSlotPtr[0m
-[0m[[0m[31merror[0m] [0m[0m        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/nietzhuang/Desktop/FlexFlow/src/main/scala/Decoder.scala:45:36: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : String("b011")[0m
+[0m[[0m[31merror[0m] [0m[0m required: chisel3.UInt[0m
+[0m[[0m[31merror[0m] [0m[0m  when(CommandParamReg(31, 29) === "b011") {[0m
+[0m[[0m[31merror[0m] [0m[0m                                   ^[0m
 [0m[[0m[31merror[0m] [0m[0mone error found[0m

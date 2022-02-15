@@ -1,0 +1,50 @@
+$date
+2022-02-12T13:41+0000
+$end
+$version
+0.2
+$end
+$comment
+
+$end
+$timescale 1ns  $end
+$scope module Decoder $end
+ $var wire 4 ! io_Schedule_Tj $end
+ $var wire 3 " io_Mode $end
+ $var wire 7 # io_ScheduleSize $end
+ $var wire 1 $ cnt $end
+ $var wire 32 % io_Instruction $end
+ $var wire 4 & io_Schedule_Tc $end
+ $var wire 1 ' io_Valid $end
+ $var wire 4 ( io_Schedule_Ti $end
+ $var wire 4 ) io_Schedule_Tr $end
+ $var wire 1 * clock $end
+ $var wire 4 + io_Schedule_Tn $end
+ $var wire 2 , io_Pooling $end
+ $var wire 1 - reset $end
+ $var wire 4 . io_Schedule_Tm $end
+$upscope $end
+$enddefinitions $end
+$dumpvars
+b000 "
+b0000 .
+b0000 (
+0-
+0'
+b0000 )
+b0000 !
+b0000 +
+0*
+b0000000 #
+b00 ,
+b00000000000000000000000000000000 %
+0$
+b0000 &
+$end
+#0
+1-
+#1
+1*
+#6
+0-
+0*

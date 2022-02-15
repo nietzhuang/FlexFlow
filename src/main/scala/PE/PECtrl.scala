@@ -2,7 +2,7 @@ package flexflow.pe
 
 import chisel3._
 import chisel3.util._
-import flexflow.util._
+import flexflow._
 import flexflow.buffer
 
 

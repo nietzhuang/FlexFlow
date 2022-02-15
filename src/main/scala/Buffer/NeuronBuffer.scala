@@ -17,4 +17,7 @@ class NeuronBuffer(bitwidth: Int, depth: Int, numBank: Int) extends Module {
 
 }
 
+object NeuronBuffer extends App {
+  (new chisel3.stage.ChiselStage).emitVerilog(new NeuronBuffer(16, 1024, 16), Array("--target-dir", "./generated/"))
+}
 
