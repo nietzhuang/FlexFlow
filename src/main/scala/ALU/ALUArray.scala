@@ -22,5 +22,5 @@ class ALUArray(
 }
 
 object ALUArray extends App {
-  (new chisel3.stage.ChiselStage).emitVerilog(new ALUArray(16, 16, 1024, 16, 16))
+  (new chisel3.stage.ChiselStage).emitVerilog(new ALUArray(16, 16, 1024, 16, 16), Array("--target-dir", "./generated/"))
 }

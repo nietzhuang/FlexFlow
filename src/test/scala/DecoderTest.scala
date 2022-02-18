@@ -34,25 +34,7 @@ class DecoderTester extends AnyFlatSpec with ChiselScalatestTester {
           CycleCount += 1
         }
       }.fork{
-        
-        /*
         // Set commands
-        val Mode = 0.U(3.W)
-        val Tm = 15.U(4.W)
-        val Tn = 4.U(4.W)
-        val Ti = 1.U(4.W)
-        val Tj = 4.U(4.W)
-        val Tr = 1.U(4.W)
-        val Tc = 1.U(4.W)
-        val Pool = 0.U(2.W)
-        val NeuronSize = 32.U(7.W)
-
-        
-        val Instruction = (Mode, Tm, Tn, Ti, Tj, Tr, Tc, Pool, 0.U(3.W))
-        val SizeInst = (0.U(25.W), NeuronSize)
-        */  
-
-        // Set commands (poorer coding)
         val Instruction = "b000_1111_0100_0001_0100_0001_0001_00_000".U(32.W)
         val NeuronSize = "b0000_0000_0000_0000_0000_0000_0000_0111".U(32.W)
         val Clear = "b0110_0000_0001_0011_0111_1111_0000_0001".U(32.W)

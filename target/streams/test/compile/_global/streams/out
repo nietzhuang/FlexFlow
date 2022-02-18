@@ -1,4 +1,4 @@
-[0m[[0m[31merror[0m] [0m[0m/Users/nietzhuang/Desktop/FlexFlow/src/test/scala/DecoderTest.scala:98:31: not found: value Pooling[0m
-[0m[[0m[31merror[0m] [0m[0m          c.io.Pooling.expect(Pooling)[0m
-[0m[[0m[31merror[0m] [0m[0m                              ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/nietzhuang/Desktop/FlexFlow/src/test/scala/AluArrayTest.scala:45:20: value PsumIn is not a member of chisel3.Vec[flexflow.alu.ALUPort][0m
+[0m[[0m[31merror[0m] [0m[0m      c.io.ALUPort.PsumIn.poke(1.U)[0m
+[0m[[0m[31merror[0m] [0m[0m                   ^[0m
 [0m[[0m[31merror[0m] [0m[0mone error found[0m
