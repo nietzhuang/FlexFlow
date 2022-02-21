@@ -20,7 +20,6 @@ class SRAM(bitwidth: Int, depth: Int, path: String) extends Module {
 }
 
 class BufferTester extends AnyFlatSpec with ChiselScalatestTester {
-  //behavior of "Read"
   
   val bitwidth = 16
   val sramDepth = 4096  // 4k blocks
@@ -67,7 +66,7 @@ class BufferTester extends AnyFlatSpec with ChiselScalatestTester {
 
 
   it should "test Kernal Buffer" in {
-    test(new KernelBuffer(bitwidth, bankDepth, numBank)) {c =>
+    test(new KernelBuffer(bitwidth, bankDepth, numBank)).withAnnotations(Seq(WriteVcdAnnotation)) {c =>
       
       val addrBoundary = Math.ceil((Ti * Tj) / (Tr * Tc))
 
@@ -84,12 +83,12 @@ class BufferTester extends AnyFlatSpec with ChiselScalatestTester {
               val k = kernelValue.next()
               val kInt = Integer.parseInt(k.trim())
               
-              /*print("addr: " + addr)
-              print("\tbankidx: " + bankidx)
-              print("\tChannel: " + numChannel)
-              print("\tKernel Number " + numKernel)
-              println("\t Weight: " + kInt)
-              */
+              //print("addr: " + addr)
+              //print("\tbankidx: " + bankidx)
+              //print("\tChannel: " + numChannel)
+              //print("\tKernel Number " + numKernel)
+              //println("\t Weight: " + kInt)
+              
               c.io.BufferIO.Enable.poke(true.B) 
               c.io.BufferIO.ReadWrite.poke(false.B)
               c.io.BufferIO.DataIn.poke(kInt.U)
@@ -103,10 +102,9 @@ class BufferTester extends AnyFlatSpec with ChiselScalatestTester {
               c.io.BufferIO.DataAddr.poke(addr.U)
               c.io.BankIndex.poke(bankidx.U)
               c.io.BufferIO.DataOut.expect(kInt.U)
-              /*val output = c.io.BufferIO.DataOut.peek()
-              println(output.litValue)
-              */
-                
+              //val output = c.io.BufferIO.DataOut.peek()
+              //println(output.litValue)
+              
               c.clock.step()
             }
           }
@@ -131,12 +129,11 @@ class BufferTester extends AnyFlatSpec with ChiselScalatestTester {
               val n = neuronValue.next()
               val nInt = Integer.parseInt(n.trim())
 
-             /* print("addr: " + addr)
-              print("\tbankidx: " + bankidx)
-              print("\tChannel: " + numChannel)
-              print("\tNeuron Number " + numNeuron)
-              println("\t Neuron: " + nInt)
-              */
+              //print("addr: " + addr)
+              //print("\tbankidx: " + bankidx)
+              //print("\tChannel: " + numChannel)
+              //print("\tNeuron Number " + numNeuron)
+              //println("\t Neuron: " + nInt)
 
               c.io.BufferIO.Enable.poke(true.B)
               c.io.BufferIO.ReadWrite.poke(false.B)
@@ -151,9 +148,8 @@ class BufferTester extends AnyFlatSpec with ChiselScalatestTester {
               c.io.BufferIO.DataAddr.poke(addr.U)
               c.io.BankIndex.poke(bankidx.U)
               c.io.BufferIO.DataOut.expect(nInt.U)
-              /*val output = c.io.BufferIO.DataOut.peek()
-              println(output.litValue)
-              */
+              //val output = c.io.BufferIO.DataOut.peek()
+              //println(output.litValue)
 
               c.clock.step()
               bankidx = if(bankidx + 1 == (numHeight+1) * Tj)
@@ -163,8 +159,7 @@ class BufferTester extends AnyFlatSpec with ChiselScalatestTester {
             }
           }
         }
-     }
-     
+      }
      
     }
   }

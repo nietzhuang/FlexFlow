@@ -2,7 +2,7 @@ package flexflow.pe
 
 import chisel3._
 import chisel3.util._
-import flexflow._
+import flexflow.util._
 import flexflow.buffer
 
 
@@ -44,12 +44,12 @@ class PECtrl(
 
   // Decode the dataflow parameters
   val NeuronSize = io.ScheduleSize
-  val Tm = io.Schedule(23, 20)
-  val Tn = io.Schedule(19, 16)
-  val Ti = io.Schedule(15, 12)
-  val Tj = io.Schedule(11, 8)
-  val Tr = io.Schedule(7, 4)
-  val Tc = io.Schedule(3, 0) 
+  val Tm = io.Schedule(23, 20) + 1.U
+  val Tn = io.Schedule(19, 16) + 1.U
+  val Ti = io.Schedule(15, 12) + 1.U
+  val Tj = io.Schedule(11, 8) + 1.U
+  val Tr = io.Schedule(7, 4) + 1.U
+  val Tc = io.Schedule(3, 0) + 1.U
 
   val GroupRowIdx = PERowIdx / (Tr * Tc)
   val GroupColIdx = PEColIdx / (Ti * Tj)
@@ -67,11 +67,11 @@ class PECtrl(
   val tr = ((PERowIdx + 1.U) - tm * Tc * Tr - tc * Tr) / Tr
 
   val cntMac = RegInit(0.U)
-  val KernelSlotPtr = RegInit(0.U)
-  val cntKBufAddr = RegInit(0.U)
+  val KernelSlotPtr = RegInit(0.U(7.W))  // bitwidth has to define clearly
+  val cntKBufAddr = RegInit(0.U(7.W))
   val cntKBufBank = RegInit(0.U)
-  val NeuronSlotPtr = RegInit(0.U)
-  val cntNBufAddr = RegInit(0.U)
+  val NeuronSlotPtr = RegInit(0.U(7.W))
+  val cntNBufAddr = RegInit(0.U(7.W))
   val cntNBufBank = RegInit(PEColIdx)
   val cntHoldBase = Mux(tc > 0.U, 
                         RegInit((tj / HoldBoundary) % HoldBoundary),
@@ -82,7 +82,7 @@ class PECtrl(
   val Load2 = (io.Mode === 2.U)  
   val KernelReadDone = RegInit(false.B)
   val NeuronReadDone = RegInit(false.B)
-  val Load2Done = (KernelReadDone | NeuronReadDone)
+  val Load2Done = (KernelReadDone & NeuronReadDone)
   val macDone = RegInit(false.B)
   
   switch (stateReg) {
@@ -97,7 +97,8 @@ class PECtrl(
       when(Load2Done === true.B) {
         stateReg := mac
       }.otherwise {
-        stateReg := init  
+        //stateReg := init  
+        stateReg := readouter 
       }
     }
     is(mac) {

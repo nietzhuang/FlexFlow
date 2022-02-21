@@ -1,4 +1,4 @@
-package flexflow
+package flexflow.util
 
 import chisel3._
 

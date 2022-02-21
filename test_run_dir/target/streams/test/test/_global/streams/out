@@ -1,0 +1,28 @@
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(KernelBufferTester, org.scalatest.tools.Framework$$anon$1@7701c419, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(IntraBufferTester, org.scalatest.tools.Framework$$anon$1@7701c419, false, [SuiteSelector])[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mKernelBufferTester:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m- should pass *** FAILED ***[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  chisel3.package$ExpectedChiselTypeException: memory type 'UInt<13>(4096)' must be a Chisel type, not hardware[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at ... ()[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at SRAM.$anonfun$mem$2(KernelBuffer_try.scala:15)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at chisel3.internal.prefix$.apply(prefix.scala:49)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at SRAM.$anonfun$mem$1(KernelBuffer_try.scala:15)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at chisel3.internal.plugin.package$.autoNameRecursively(package.scala:33)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at SRAM.<init>(KernelBuffer_try.scala:15)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at KernelBufferTester.$anonfun$new$3(KernelBuffer_try.scala:31)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at ... ()[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at ... (Stack trace trimmed to user code only. Rerun with --full-stacktrace to see the full stack trace)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  ...[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mIntraBufferTester:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mIntraBuffer[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should pass[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 2 seconds, 217 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 2[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 2, aborted 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 1, failed 1, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m*** 1 TEST FAILED ***[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	IntraBufferTester[0m
+[0m[[0m[31merror[0m] [0m[0mFailed tests:[0m
+[0m[[0m[31merror[0m] [0m[0m	KernelBufferTester[0m
+[0m[[0m[31merror[0m] [0m[0m(Test / [31mtest[0m) sbt.TestsFailedException: Tests unsuccessful[0m

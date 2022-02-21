@@ -1,8 +1,7 @@
-package flexflow
+package flexflow.pe
 
 import chisel3._
 import chisel3.util._
-import flexflow.pe._
 import flexflow.buffer._
 
 
