@@ -1,17 +1,39 @@
-[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(BufferTester, org.scalatest.tools.Framework$$anon$1@6572c0ec, false, [SuiteSelector])[0m
-[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(BufferBankTester, org.scalatest.tools.Framework$$anon$1@6572c0ec, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(DecoderTester, org.scalatest.tools.Framework$$anon$1@69fd245b, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(BufferTester, org.scalatest.tools.Framework$$anon$1@69fd245b, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(BufferBankTester, org.scalatest.tools.Framework$$anon$1@69fd245b, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(PETester, org.scalatest.tools.Framework$$anon$1@69fd245b, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(AluArrayTester, org.scalatest.tools.Framework$$anon$1@69fd245b, false, [SuiteSelector])[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mDecoderTester:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m- should test commands *** FAILED ***[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  chisel3.internal.ChiselException: Cannot reassign to read-only Decode.?: OpResult[UInt<4>][0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at ... ()[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at flexflow.Decode.<init>(Decoder.scala:57)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at DecoderTester.$anonfun$new$2(DecoderTest.scala:15)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at ... ()[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at ... (Stack trace trimmed to user code only. Rerun with --full-stacktrace to see the full stack trace)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  ...[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32mBufferBankTester:[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32mOuterBuffer[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32m- should pass[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mPETester:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should test load2 mode[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mAluArrayTester:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should test an single AluPool[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should test AluArray[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32mBufferTester:[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32m- should test SRAM[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32m- should test Kernal Buffer[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32m- should test Neuron Buffer[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 28 seconds, 93 milliseconds.[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 4[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 2, aborted 0[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 4, failed 0, canceled 0, ignored 0, pending 0[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32mAll tests passed.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 23 seconds, 861 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 8[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 5, aborted 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 7, failed 1, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m*** 1 TEST FAILED ***[0m[0m
 [0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	BufferTester[0m
 [0m[[0m[0mdebug[0m] [0m[0m	BufferBankTester[0m
+[0m[[0m[0mdebug[0m] [0m[0m	PETester[0m
+[0m[[0m[0mdebug[0m] [0m[0m	AluArrayTester[0m
+[0m[[0m[31merror[0m] [0m[0mFailed tests:[0m
+[0m[[0m[31merror[0m] [0m[0m	DecoderTester[0m
+[0m[[0m[31merror[0m] [0m[0m(Test / [31mtest[0m) sbt.TestsFailedException: Tests unsuccessful[0m

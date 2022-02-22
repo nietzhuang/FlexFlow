@@ -16660,311 +16660,391 @@ circuit KernelBuffer :
     input reset : Reset
     output io : { BufferIO : { flip DataIn : UInt<16>, flip DataAddr : UInt<10>, flip ReadWrite : UInt<1>, flip Enable : UInt<1>, DataOut : UInt<16>}, flip BankIndex : UInt<4>}
 
-    inst bank0 of Bank @[OuterBuffer.scala 41:23]
-    bank0.clock <= clock
-    bank0.reset <= reset
-    inst bank1 of Bank_1 @[OuterBuffer.scala 42:23]
-    bank1.clock <= clock
-    bank1.reset <= reset
-    inst bank2 of Bank_2 @[OuterBuffer.scala 43:23]
-    bank2.clock <= clock
-    bank2.reset <= reset
-    inst bank3 of Bank_3 @[OuterBuffer.scala 44:23]
-    bank3.clock <= clock
-    bank3.reset <= reset
-    inst bank4 of Bank_4 @[OuterBuffer.scala 45:23]
-    bank4.clock <= clock
-    bank4.reset <= reset
-    inst bank5 of Bank_5 @[OuterBuffer.scala 46:23]
-    bank5.clock <= clock
-    bank5.reset <= reset
-    inst bank6 of Bank_6 @[OuterBuffer.scala 47:23]
-    bank6.clock <= clock
-    bank6.reset <= reset
-    inst bank7 of Bank_7 @[OuterBuffer.scala 48:23]
-    bank7.clock <= clock
-    bank7.reset <= reset
-    inst bank8 of Bank_8 @[OuterBuffer.scala 49:23]
-    bank8.clock <= clock
-    bank8.reset <= reset
-    inst bank9 of Bank_9 @[OuterBuffer.scala 50:23]
-    bank9.clock <= clock
-    bank9.reset <= reset
-    inst bank10 of Bank_10 @[OuterBuffer.scala 51:23]
-    bank10.clock <= clock
-    bank10.reset <= reset
-    inst bank11 of Bank_11 @[OuterBuffer.scala 52:23]
-    bank11.clock <= clock
-    bank11.reset <= reset
-    inst bank12 of Bank_12 @[OuterBuffer.scala 53:23]
-    bank12.clock <= clock
-    bank12.reset <= reset
-    inst bank13 of Bank_13 @[OuterBuffer.scala 54:23]
-    bank13.clock <= clock
-    bank13.reset <= reset
-    inst bank14 of Bank_14 @[OuterBuffer.scala 55:23]
-    bank14.clock <= clock
-    bank14.reset <= reset
-    inst bank15 of Bank_15 @[OuterBuffer.scala 56:23]
-    bank15.clock <= clock
-    bank15.reset <= reset
-    bank0.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 59:27]
-    bank1.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 60:27]
-    bank2.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 61:27]
-    bank3.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 62:27]
-    bank4.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 63:27]
-    bank5.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 64:27]
-    bank6.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 65:27]
-    bank7.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 66:27]
-    bank8.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 67:27]
-    bank9.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 68:27]
-    bank10.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 69:27]
-    bank11.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 70:27]
-    bank12.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 71:27]
-    bank13.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 72:27]
-    bank14.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 73:27]
-    bank15.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 74:27]
-    bank0.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 76:27]
-    bank1.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 77:27]
-    bank2.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 78:27]
-    bank3.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 79:27]
-    bank4.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 80:27]
-    bank5.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 81:27]
-    bank6.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 82:27]
-    bank7.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 83:27]
-    bank8.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 84:27]
-    bank9.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 85:27]
-    bank10.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 86:27]
-    bank11.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 87:27]
-    bank12.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 88:27]
-    bank13.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 89:27]
-    bank14.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 90:27]
-    bank15.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 91:27]
-    io.BufferIO.DataOut <= UInt<1>("h0") @[OuterBuffer.scala 93:23]
-    node _T = eq(UInt<1>("h0"), io.BankIndex) @[OuterBuffer.scala 95:24]
-    when _T : @[OuterBuffer.scala 95:24]
-      bank0.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 96:38]
+    inst Bank of Bank @[OuterBuffer.scala 41:48]
+    Bank.clock <= clock
+    Bank.reset <= reset
+    inst Bank_1 of Bank_1 @[OuterBuffer.scala 41:48]
+    Bank_1.clock <= clock
+    Bank_1.reset <= reset
+    inst Bank_2 of Bank_2 @[OuterBuffer.scala 41:48]
+    Bank_2.clock <= clock
+    Bank_2.reset <= reset
+    inst Bank_3 of Bank_3 @[OuterBuffer.scala 41:48]
+    Bank_3.clock <= clock
+    Bank_3.reset <= reset
+    inst Bank_4 of Bank_4 @[OuterBuffer.scala 41:48]
+    Bank_4.clock <= clock
+    Bank_4.reset <= reset
+    inst Bank_5 of Bank_5 @[OuterBuffer.scala 41:48]
+    Bank_5.clock <= clock
+    Bank_5.reset <= reset
+    inst Bank_6 of Bank_6 @[OuterBuffer.scala 41:48]
+    Bank_6.clock <= clock
+    Bank_6.reset <= reset
+    inst Bank_7 of Bank_7 @[OuterBuffer.scala 41:48]
+    Bank_7.clock <= clock
+    Bank_7.reset <= reset
+    inst Bank_8 of Bank_8 @[OuterBuffer.scala 41:48]
+    Bank_8.clock <= clock
+    Bank_8.reset <= reset
+    inst Bank_9 of Bank_9 @[OuterBuffer.scala 41:48]
+    Bank_9.clock <= clock
+    Bank_9.reset <= reset
+    inst Bank_10 of Bank_10 @[OuterBuffer.scala 41:48]
+    Bank_10.clock <= clock
+    Bank_10.reset <= reset
+    inst Bank_11 of Bank_11 @[OuterBuffer.scala 41:48]
+    Bank_11.clock <= clock
+    Bank_11.reset <= reset
+    inst Bank_12 of Bank_12 @[OuterBuffer.scala 41:48]
+    Bank_12.clock <= clock
+    Bank_12.reset <= reset
+    inst Bank_13 of Bank_13 @[OuterBuffer.scala 41:48]
+    Bank_13.clock <= clock
+    Bank_13.reset <= reset
+    inst Bank_14 of Bank_14 @[OuterBuffer.scala 41:48]
+    Bank_14.clock <= clock
+    Bank_14.reset <= reset
+    inst Bank_15 of Bank_15 @[OuterBuffer.scala 41:48]
+    Bank_15.clock <= clock
+    Bank_15.reset <= reset
+    Bank.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_1.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_1.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_2.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_2.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_3.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_3.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_4.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_4.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_5.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_5.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_6.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_6.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_7.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_7.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_8.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_8.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_9.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_9.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_10.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_10.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_11.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_11.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_12.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_12.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_13.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_13.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_14.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_14.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    Bank_15.io.BankIO.Enable <= UInt<1>("h0") @[OuterBuffer.scala 50:35]
+    Bank_15.io.BankIO.DataIn <= UInt<1>("h0") @[OuterBuffer.scala 51:35]
+    io.BufferIO.DataOut <= UInt<1>("h0") @[OuterBuffer.scala 53:23]
+    node _T = eq(UInt<1>("h0"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T : @[OuterBuffer.scala 57:32]
+      Bank.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
     else :
-      node _T_1 = eq(UInt<1>("h1"), io.BankIndex) @[OuterBuffer.scala 95:24]
-      when _T_1 : @[OuterBuffer.scala 95:24]
-        bank1.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 97:38]
-      else :
-        node _T_2 = eq(UInt<2>("h2"), io.BankIndex) @[OuterBuffer.scala 95:24]
-        when _T_2 : @[OuterBuffer.scala 95:24]
-          bank2.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 98:38]
-        else :
-          node _T_3 = eq(UInt<2>("h3"), io.BankIndex) @[OuterBuffer.scala 95:24]
-          when _T_3 : @[OuterBuffer.scala 95:24]
-            bank3.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 99:38]
-          else :
-            node _T_4 = eq(UInt<3>("h4"), io.BankIndex) @[OuterBuffer.scala 95:24]
-            when _T_4 : @[OuterBuffer.scala 95:24]
-              bank4.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 100:38]
-            else :
-              node _T_5 = eq(UInt<3>("h5"), io.BankIndex) @[OuterBuffer.scala 95:24]
-              when _T_5 : @[OuterBuffer.scala 95:24]
-                bank5.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 101:38]
-              else :
-                node _T_6 = eq(UInt<3>("h6"), io.BankIndex) @[OuterBuffer.scala 95:24]
-                when _T_6 : @[OuterBuffer.scala 95:24]
-                  bank6.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 102:38]
-                else :
-                  node _T_7 = eq(UInt<3>("h7"), io.BankIndex) @[OuterBuffer.scala 95:24]
-                  when _T_7 : @[OuterBuffer.scala 95:24]
-                    bank7.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 103:38]
-                  else :
-                    node _T_8 = eq(UInt<4>("h8"), io.BankIndex) @[OuterBuffer.scala 95:24]
-                    when _T_8 : @[OuterBuffer.scala 95:24]
-                      bank8.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 104:38]
-                    else :
-                      node _T_9 = eq(UInt<4>("h9"), io.BankIndex) @[OuterBuffer.scala 95:24]
-                      when _T_9 : @[OuterBuffer.scala 95:24]
-                        bank9.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 105:38]
-                      else :
-                        node _T_10 = eq(UInt<4>("ha"), io.BankIndex) @[OuterBuffer.scala 95:24]
-                        when _T_10 : @[OuterBuffer.scala 95:24]
-                          bank10.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 106:40]
-                        else :
-                          node _T_11 = eq(UInt<4>("hb"), io.BankIndex) @[OuterBuffer.scala 95:24]
-                          when _T_11 : @[OuterBuffer.scala 95:24]
-                            bank11.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 107:40]
-                          else :
-                            node _T_12 = eq(UInt<4>("hc"), io.BankIndex) @[OuterBuffer.scala 95:24]
-                            when _T_12 : @[OuterBuffer.scala 95:24]
-                              bank12.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 108:40]
-                            else :
-                              node _T_13 = eq(UInt<4>("hd"), io.BankIndex) @[OuterBuffer.scala 95:24]
-                              when _T_13 : @[OuterBuffer.scala 95:24]
-                                bank13.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 109:40]
-                              else :
-                                node _T_14 = eq(UInt<4>("he"), io.BankIndex) @[OuterBuffer.scala 95:24]
-                                when _T_14 : @[OuterBuffer.scala 95:24]
-                                  bank14.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 110:40]
-                                else :
-                                  node _T_15 = eq(UInt<4>("hf"), io.BankIndex) @[OuterBuffer.scala 95:24]
-                                  when _T_15 : @[OuterBuffer.scala 95:24]
-                                    bank15.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 111:40]
-    node _T_16 = eq(io.BufferIO.ReadWrite, UInt<1>("h0")) @[OuterBuffer.scala 114:30]
-    when _T_16 : @[OuterBuffer.scala 114:43]
-      node _T_17 = eq(UInt<1>("h0"), io.BankIndex) @[OuterBuffer.scala 115:26]
-      when _T_17 : @[OuterBuffer.scala 115:26]
-        bank0.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 116:40]
-      else :
-        node _T_18 = eq(UInt<1>("h1"), io.BankIndex) @[OuterBuffer.scala 115:26]
-        when _T_18 : @[OuterBuffer.scala 115:26]
-          bank1.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 117:40]
-        else :
-          node _T_19 = eq(UInt<2>("h2"), io.BankIndex) @[OuterBuffer.scala 115:26]
-          when _T_19 : @[OuterBuffer.scala 115:26]
-            bank2.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 118:40]
-          else :
-            node _T_20 = eq(UInt<2>("h3"), io.BankIndex) @[OuterBuffer.scala 115:26]
-            when _T_20 : @[OuterBuffer.scala 115:26]
-              bank3.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 119:40]
-            else :
-              node _T_21 = eq(UInt<3>("h4"), io.BankIndex) @[OuterBuffer.scala 115:26]
-              when _T_21 : @[OuterBuffer.scala 115:26]
-                bank4.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 120:40]
-              else :
-                node _T_22 = eq(UInt<3>("h5"), io.BankIndex) @[OuterBuffer.scala 115:26]
-                when _T_22 : @[OuterBuffer.scala 115:26]
-                  bank5.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 121:40]
-                else :
-                  node _T_23 = eq(UInt<3>("h6"), io.BankIndex) @[OuterBuffer.scala 115:26]
-                  when _T_23 : @[OuterBuffer.scala 115:26]
-                    bank6.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 122:40]
-                  else :
-                    node _T_24 = eq(UInt<3>("h7"), io.BankIndex) @[OuterBuffer.scala 115:26]
-                    when _T_24 : @[OuterBuffer.scala 115:26]
-                      bank7.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 123:40]
-                    else :
-                      node _T_25 = eq(UInt<4>("h8"), io.BankIndex) @[OuterBuffer.scala 115:26]
-                      when _T_25 : @[OuterBuffer.scala 115:26]
-                        bank8.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 124:40]
-                      else :
-                        node _T_26 = eq(UInt<4>("h9"), io.BankIndex) @[OuterBuffer.scala 115:26]
-                        when _T_26 : @[OuterBuffer.scala 115:26]
-                          bank9.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 125:40]
-                        else :
-                          node _T_27 = eq(UInt<4>("ha"), io.BankIndex) @[OuterBuffer.scala 115:26]
-                          when _T_27 : @[OuterBuffer.scala 115:26]
-                            bank10.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 126:42]
-                          else :
-                            node _T_28 = eq(UInt<4>("hb"), io.BankIndex) @[OuterBuffer.scala 115:26]
-                            when _T_28 : @[OuterBuffer.scala 115:26]
-                              bank11.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 127:42]
-                            else :
-                              node _T_29 = eq(UInt<4>("hc"), io.BankIndex) @[OuterBuffer.scala 115:26]
-                              when _T_29 : @[OuterBuffer.scala 115:26]
-                                bank12.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 128:42]
-                              else :
-                                node _T_30 = eq(UInt<4>("hd"), io.BankIndex) @[OuterBuffer.scala 115:26]
-                                when _T_30 : @[OuterBuffer.scala 115:26]
-                                  bank13.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 129:42]
-                                else :
-                                  node _T_31 = eq(UInt<4>("he"), io.BankIndex) @[OuterBuffer.scala 115:26]
-                                  when _T_31 : @[OuterBuffer.scala 115:26]
-                                    bank14.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 130:42]
-                                  else :
-                                    node _T_32 = eq(UInt<4>("hf"), io.BankIndex) @[OuterBuffer.scala 115:26]
-                                    when _T_32 : @[OuterBuffer.scala 115:26]
-                                      bank15.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 131:42]
+      Bank.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_1 = eq(UInt<1>("h1"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_1 : @[OuterBuffer.scala 57:32]
+      Bank_1.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_1.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
     else :
-      node _T_33 = eq(UInt<1>("h0"), io.BankIndex) @[OuterBuffer.scala 134:26]
-      when _T_33 : @[OuterBuffer.scala 134:26]
-        io.BufferIO.DataOut <= bank0.io.BankIO.DataOut @[OuterBuffer.scala 135:37]
+      Bank_1.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_1.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_2 = eq(UInt<2>("h2"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_2 : @[OuterBuffer.scala 57:32]
+      Bank_2.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_2.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_2.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_2.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_3 = eq(UInt<2>("h3"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_3 : @[OuterBuffer.scala 57:32]
+      Bank_3.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_3.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_3.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_3.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_4 = eq(UInt<3>("h4"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_4 : @[OuterBuffer.scala 57:32]
+      Bank_4.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_4.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_4.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_4.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_5 = eq(UInt<3>("h5"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_5 : @[OuterBuffer.scala 57:32]
+      Bank_5.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_5.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_5.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_5.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_6 = eq(UInt<3>("h6"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_6 : @[OuterBuffer.scala 57:32]
+      Bank_6.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_6.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_6.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_6.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_7 = eq(UInt<3>("h7"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_7 : @[OuterBuffer.scala 57:32]
+      Bank_7.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_7.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_7.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_7.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_8 = eq(UInt<4>("h8"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_8 : @[OuterBuffer.scala 57:32]
+      Bank_8.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_8.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_8.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_8.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_9 = eq(UInt<4>("h9"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_9 : @[OuterBuffer.scala 57:32]
+      Bank_9.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_9.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_9.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_9.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_10 = eq(UInt<4>("ha"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_10 : @[OuterBuffer.scala 57:32]
+      Bank_10.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_10.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_10.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_10.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_11 = eq(UInt<4>("hb"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_11 : @[OuterBuffer.scala 57:32]
+      Bank_11.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_11.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_11.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_11.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_12 = eq(UInt<4>("hc"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_12 : @[OuterBuffer.scala 57:32]
+      Bank_12.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_12.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_12.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_12.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_13 = eq(UInt<4>("hd"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_13 : @[OuterBuffer.scala 57:32]
+      Bank_13.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_13.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_13.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_13.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_14 = eq(UInt<4>("he"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_14 : @[OuterBuffer.scala 57:32]
+      Bank_14.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_14.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_14.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_14.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_15 = eq(UInt<4>("hf"), io.BankIndex) @[OuterBuffer.scala 57:14]
+    when _T_15 : @[OuterBuffer.scala 57:32]
+      Bank_15.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 58:39]
+      Bank_15.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 59:40]
+    else :
+      Bank_15.io.BankIO.DataAddr <= UInt<1>("h0") @[OuterBuffer.scala 61:39]
+      Bank_15.io.BankIO.ReadWrite <= UInt<1>("h0") @[OuterBuffer.scala 62:40]
+    node _T_16 = eq(UInt<1>("h0"), io.BankIndex) @[OuterBuffer.scala 66:24]
+    when _T_16 : @[OuterBuffer.scala 66:24]
+      Bank.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 67:45]
+    else :
+      node _T_17 = eq(UInt<1>("h1"), io.BankIndex) @[OuterBuffer.scala 66:24]
+      when _T_17 : @[OuterBuffer.scala 66:24]
+        Bank_1.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 68:45]
       else :
-        node _T_34 = eq(UInt<1>("h1"), io.BankIndex) @[OuterBuffer.scala 134:26]
-        when _T_34 : @[OuterBuffer.scala 134:26]
-          io.BufferIO.DataOut <= bank1.io.BankIO.DataOut @[OuterBuffer.scala 136:37]
+        node _T_18 = eq(UInt<2>("h2"), io.BankIndex) @[OuterBuffer.scala 66:24]
+        when _T_18 : @[OuterBuffer.scala 66:24]
+          Bank_2.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 69:45]
         else :
-          node _T_35 = eq(UInt<2>("h2"), io.BankIndex) @[OuterBuffer.scala 134:26]
-          when _T_35 : @[OuterBuffer.scala 134:26]
-            io.BufferIO.DataOut <= bank2.io.BankIO.DataOut @[OuterBuffer.scala 137:37]
+          node _T_19 = eq(UInt<2>("h3"), io.BankIndex) @[OuterBuffer.scala 66:24]
+          when _T_19 : @[OuterBuffer.scala 66:24]
+            Bank_3.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 70:45]
           else :
-            node _T_36 = eq(UInt<2>("h3"), io.BankIndex) @[OuterBuffer.scala 134:26]
-            when _T_36 : @[OuterBuffer.scala 134:26]
-              io.BufferIO.DataOut <= bank3.io.BankIO.DataOut @[OuterBuffer.scala 138:37]
+            node _T_20 = eq(UInt<3>("h4"), io.BankIndex) @[OuterBuffer.scala 66:24]
+            when _T_20 : @[OuterBuffer.scala 66:24]
+              Bank_4.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 71:45]
             else :
-              node _T_37 = eq(UInt<3>("h4"), io.BankIndex) @[OuterBuffer.scala 134:26]
-              when _T_37 : @[OuterBuffer.scala 134:26]
-                io.BufferIO.DataOut <= bank4.io.BankIO.DataOut @[OuterBuffer.scala 139:37]
+              node _T_21 = eq(UInt<3>("h5"), io.BankIndex) @[OuterBuffer.scala 66:24]
+              when _T_21 : @[OuterBuffer.scala 66:24]
+                Bank_5.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 72:45]
               else :
-                node _T_38 = eq(UInt<3>("h5"), io.BankIndex) @[OuterBuffer.scala 134:26]
-                when _T_38 : @[OuterBuffer.scala 134:26]
-                  io.BufferIO.DataOut <= bank5.io.BankIO.DataOut @[OuterBuffer.scala 140:37]
+                node _T_22 = eq(UInt<3>("h6"), io.BankIndex) @[OuterBuffer.scala 66:24]
+                when _T_22 : @[OuterBuffer.scala 66:24]
+                  Bank_6.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 73:45]
                 else :
-                  node _T_39 = eq(UInt<3>("h6"), io.BankIndex) @[OuterBuffer.scala 134:26]
-                  when _T_39 : @[OuterBuffer.scala 134:26]
-                    io.BufferIO.DataOut <= bank6.io.BankIO.DataOut @[OuterBuffer.scala 141:37]
+                  node _T_23 = eq(UInt<3>("h7"), io.BankIndex) @[OuterBuffer.scala 66:24]
+                  when _T_23 : @[OuterBuffer.scala 66:24]
+                    Bank_7.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 74:45]
                   else :
-                    node _T_40 = eq(UInt<3>("h7"), io.BankIndex) @[OuterBuffer.scala 134:26]
-                    when _T_40 : @[OuterBuffer.scala 134:26]
-                      io.BufferIO.DataOut <= bank7.io.BankIO.DataOut @[OuterBuffer.scala 142:37]
+                    node _T_24 = eq(UInt<4>("h8"), io.BankIndex) @[OuterBuffer.scala 66:24]
+                    when _T_24 : @[OuterBuffer.scala 66:24]
+                      Bank_8.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 75:45]
                     else :
-                      node _T_41 = eq(UInt<4>("h8"), io.BankIndex) @[OuterBuffer.scala 134:26]
-                      when _T_41 : @[OuterBuffer.scala 134:26]
-                        io.BufferIO.DataOut <= bank8.io.BankIO.DataOut @[OuterBuffer.scala 143:37]
+                      node _T_25 = eq(UInt<4>("h9"), io.BankIndex) @[OuterBuffer.scala 66:24]
+                      when _T_25 : @[OuterBuffer.scala 66:24]
+                        Bank_9.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 76:45]
                       else :
-                        node _T_42 = eq(UInt<4>("h9"), io.BankIndex) @[OuterBuffer.scala 134:26]
-                        when _T_42 : @[OuterBuffer.scala 134:26]
-                          io.BufferIO.DataOut <= bank9.io.BankIO.DataOut @[OuterBuffer.scala 144:37]
+                        node _T_26 = eq(UInt<4>("ha"), io.BankIndex) @[OuterBuffer.scala 66:24]
+                        when _T_26 : @[OuterBuffer.scala 66:24]
+                          Bank_10.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 77:47]
                         else :
-                          node _T_43 = eq(UInt<4>("ha"), io.BankIndex) @[OuterBuffer.scala 134:26]
-                          when _T_43 : @[OuterBuffer.scala 134:26]
-                            io.BufferIO.DataOut <= bank10.io.BankIO.DataOut @[OuterBuffer.scala 145:38]
+                          node _T_27 = eq(UInt<4>("hb"), io.BankIndex) @[OuterBuffer.scala 66:24]
+                          when _T_27 : @[OuterBuffer.scala 66:24]
+                            Bank_11.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 78:47]
                           else :
-                            node _T_44 = eq(UInt<4>("hb"), io.BankIndex) @[OuterBuffer.scala 134:26]
-                            when _T_44 : @[OuterBuffer.scala 134:26]
-                              io.BufferIO.DataOut <= bank11.io.BankIO.DataOut @[OuterBuffer.scala 146:38]
+                            node _T_28 = eq(UInt<4>("hc"), io.BankIndex) @[OuterBuffer.scala 66:24]
+                            when _T_28 : @[OuterBuffer.scala 66:24]
+                              Bank_12.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 79:47]
                             else :
-                              node _T_45 = eq(UInt<4>("hc"), io.BankIndex) @[OuterBuffer.scala 134:26]
-                              when _T_45 : @[OuterBuffer.scala 134:26]
-                                io.BufferIO.DataOut <= bank12.io.BankIO.DataOut @[OuterBuffer.scala 147:38]
+                              node _T_29 = eq(UInt<4>("hd"), io.BankIndex) @[OuterBuffer.scala 66:24]
+                              when _T_29 : @[OuterBuffer.scala 66:24]
+                                Bank_13.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 80:47]
                               else :
-                                node _T_46 = eq(UInt<4>("hd"), io.BankIndex) @[OuterBuffer.scala 134:26]
-                                when _T_46 : @[OuterBuffer.scala 134:26]
-                                  io.BufferIO.DataOut <= bank13.io.BankIO.DataOut @[OuterBuffer.scala 148:38]
+                                node _T_30 = eq(UInt<4>("he"), io.BankIndex) @[OuterBuffer.scala 66:24]
+                                when _T_30 : @[OuterBuffer.scala 66:24]
+                                  Bank_14.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 81:47]
                                 else :
-                                  node _T_47 = eq(UInt<4>("he"), io.BankIndex) @[OuterBuffer.scala 134:26]
-                                  when _T_47 : @[OuterBuffer.scala 134:26]
-                                    io.BufferIO.DataOut <= bank14.io.BankIO.DataOut @[OuterBuffer.scala 149:38]
+                                  node _T_31 = eq(UInt<4>("hf"), io.BankIndex) @[OuterBuffer.scala 66:24]
+                                  when _T_31 : @[OuterBuffer.scala 66:24]
+                                    Bank_15.io.BankIO.Enable <= io.BufferIO.Enable @[OuterBuffer.scala 82:47]
+    node _T_32 = eq(io.BufferIO.ReadWrite, UInt<1>("h0")) @[OuterBuffer.scala 85:30]
+    when _T_32 : @[OuterBuffer.scala 85:43]
+      node _T_33 = eq(UInt<1>("h0"), io.BankIndex) @[OuterBuffer.scala 86:26]
+      when _T_33 : @[OuterBuffer.scala 86:26]
+        Bank.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 87:47]
+      else :
+        node _T_34 = eq(UInt<1>("h1"), io.BankIndex) @[OuterBuffer.scala 86:26]
+        when _T_34 : @[OuterBuffer.scala 86:26]
+          Bank_1.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 88:47]
+        else :
+          node _T_35 = eq(UInt<2>("h2"), io.BankIndex) @[OuterBuffer.scala 86:26]
+          when _T_35 : @[OuterBuffer.scala 86:26]
+            Bank_2.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 89:47]
+          else :
+            node _T_36 = eq(UInt<2>("h3"), io.BankIndex) @[OuterBuffer.scala 86:26]
+            when _T_36 : @[OuterBuffer.scala 86:26]
+              Bank_3.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 90:47]
+            else :
+              node _T_37 = eq(UInt<3>("h4"), io.BankIndex) @[OuterBuffer.scala 86:26]
+              when _T_37 : @[OuterBuffer.scala 86:26]
+                Bank_4.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 91:47]
+              else :
+                node _T_38 = eq(UInt<3>("h5"), io.BankIndex) @[OuterBuffer.scala 86:26]
+                when _T_38 : @[OuterBuffer.scala 86:26]
+                  Bank_5.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 92:47]
+                else :
+                  node _T_39 = eq(UInt<3>("h6"), io.BankIndex) @[OuterBuffer.scala 86:26]
+                  when _T_39 : @[OuterBuffer.scala 86:26]
+                    Bank_6.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 93:47]
+                  else :
+                    node _T_40 = eq(UInt<3>("h7"), io.BankIndex) @[OuterBuffer.scala 86:26]
+                    when _T_40 : @[OuterBuffer.scala 86:26]
+                      Bank_7.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 94:47]
+                    else :
+                      node _T_41 = eq(UInt<4>("h8"), io.BankIndex) @[OuterBuffer.scala 86:26]
+                      when _T_41 : @[OuterBuffer.scala 86:26]
+                        Bank_8.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 95:47]
+                      else :
+                        node _T_42 = eq(UInt<4>("h9"), io.BankIndex) @[OuterBuffer.scala 86:26]
+                        when _T_42 : @[OuterBuffer.scala 86:26]
+                          Bank_9.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 96:47]
+                        else :
+                          node _T_43 = eq(UInt<4>("ha"), io.BankIndex) @[OuterBuffer.scala 86:26]
+                          when _T_43 : @[OuterBuffer.scala 86:26]
+                            Bank_10.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 97:49]
+                          else :
+                            node _T_44 = eq(UInt<4>("hb"), io.BankIndex) @[OuterBuffer.scala 86:26]
+                            when _T_44 : @[OuterBuffer.scala 86:26]
+                              Bank_11.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 98:49]
+                            else :
+                              node _T_45 = eq(UInt<4>("hc"), io.BankIndex) @[OuterBuffer.scala 86:26]
+                              when _T_45 : @[OuterBuffer.scala 86:26]
+                                Bank_12.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 99:49]
+                              else :
+                                node _T_46 = eq(UInt<4>("hd"), io.BankIndex) @[OuterBuffer.scala 86:26]
+                                when _T_46 : @[OuterBuffer.scala 86:26]
+                                  Bank_13.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 100:49]
+                                else :
+                                  node _T_47 = eq(UInt<4>("he"), io.BankIndex) @[OuterBuffer.scala 86:26]
+                                  when _T_47 : @[OuterBuffer.scala 86:26]
+                                    Bank_14.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 101:49]
                                   else :
-                                    node _T_48 = eq(UInt<4>("hf"), io.BankIndex) @[OuterBuffer.scala 134:26]
-                                    when _T_48 : @[OuterBuffer.scala 134:26]
-                                      io.BufferIO.DataOut <= bank15.io.BankIO.DataOut @[OuterBuffer.scala 150:38]
-    bank0.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 154:28]
-    bank1.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 155:28]
-    bank2.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 156:28]
-    bank3.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 157:28]
-    bank4.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 158:28]
-    bank5.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 159:28]
-    bank6.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 160:28]
-    bank7.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 161:28]
-    bank8.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 162:28]
-    bank9.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 163:28]
-    bank10.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 164:29]
-    bank11.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 165:29]
-    bank12.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 166:29]
-    bank13.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 167:29]
-    bank14.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 168:29]
-    bank15.io.BankIO.DataAddr <= io.BufferIO.DataAddr @[OuterBuffer.scala 169:29]
-    bank0.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 171:29]
-    bank1.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 172:29]
-    bank2.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 173:29]
-    bank3.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 174:29]
-    bank4.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 175:29]
-    bank5.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 176:29]
-    bank6.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 177:29]
-    bank7.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 178:29]
-    bank8.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 179:29]
-    bank9.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 180:29]
-    bank10.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 181:30]
-    bank11.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 182:30]
-    bank12.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 183:30]
-    bank13.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 184:30]
-    bank14.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 185:30]
-    bank15.io.BankIO.ReadWrite <= io.BufferIO.ReadWrite @[OuterBuffer.scala 186:30]
+                                    node _T_48 = eq(UInt<4>("hf"), io.BankIndex) @[OuterBuffer.scala 86:26]
+                                    when _T_48 : @[OuterBuffer.scala 86:26]
+                                      Bank_15.io.BankIO.DataIn <= io.BufferIO.DataIn @[OuterBuffer.scala 102:49]
+    else :
+      node _T_49 = eq(UInt<1>("h0"), io.BankIndex) @[OuterBuffer.scala 105:26]
+      when _T_49 : @[OuterBuffer.scala 105:26]
+        io.BufferIO.DataOut <= Bank.io.BankIO.DataOut @[OuterBuffer.scala 106:37]
+      else :
+        node _T_50 = eq(UInt<1>("h1"), io.BankIndex) @[OuterBuffer.scala 105:26]
+        when _T_50 : @[OuterBuffer.scala 105:26]
+          io.BufferIO.DataOut <= Bank_1.io.BankIO.DataOut @[OuterBuffer.scala 107:37]
+        else :
+          node _T_51 = eq(UInt<2>("h2"), io.BankIndex) @[OuterBuffer.scala 105:26]
+          when _T_51 : @[OuterBuffer.scala 105:26]
+            io.BufferIO.DataOut <= Bank_2.io.BankIO.DataOut @[OuterBuffer.scala 108:37]
+          else :
+            node _T_52 = eq(UInt<2>("h3"), io.BankIndex) @[OuterBuffer.scala 105:26]
+            when _T_52 : @[OuterBuffer.scala 105:26]
+              io.BufferIO.DataOut <= Bank_3.io.BankIO.DataOut @[OuterBuffer.scala 109:37]
+            else :
+              node _T_53 = eq(UInt<3>("h4"), io.BankIndex) @[OuterBuffer.scala 105:26]
+              when _T_53 : @[OuterBuffer.scala 105:26]
+                io.BufferIO.DataOut <= Bank_4.io.BankIO.DataOut @[OuterBuffer.scala 110:37]
+              else :
+                node _T_54 = eq(UInt<3>("h5"), io.BankIndex) @[OuterBuffer.scala 105:26]
+                when _T_54 : @[OuterBuffer.scala 105:26]
+                  io.BufferIO.DataOut <= Bank_5.io.BankIO.DataOut @[OuterBuffer.scala 111:37]
+                else :
+                  node _T_55 = eq(UInt<3>("h6"), io.BankIndex) @[OuterBuffer.scala 105:26]
+                  when _T_55 : @[OuterBuffer.scala 105:26]
+                    io.BufferIO.DataOut <= Bank_6.io.BankIO.DataOut @[OuterBuffer.scala 112:37]
+                  else :
+                    node _T_56 = eq(UInt<3>("h7"), io.BankIndex) @[OuterBuffer.scala 105:26]
+                    when _T_56 : @[OuterBuffer.scala 105:26]
+                      io.BufferIO.DataOut <= Bank_7.io.BankIO.DataOut @[OuterBuffer.scala 113:37]
+                    else :
+                      node _T_57 = eq(UInt<4>("h8"), io.BankIndex) @[OuterBuffer.scala 105:26]
+                      when _T_57 : @[OuterBuffer.scala 105:26]
+                        io.BufferIO.DataOut <= Bank_8.io.BankIO.DataOut @[OuterBuffer.scala 114:37]
+                      else :
+                        node _T_58 = eq(UInt<4>("h9"), io.BankIndex) @[OuterBuffer.scala 105:26]
+                        when _T_58 : @[OuterBuffer.scala 105:26]
+                          io.BufferIO.DataOut <= Bank_9.io.BankIO.DataOut @[OuterBuffer.scala 115:37]
+                        else :
+                          node _T_59 = eq(UInt<4>("ha"), io.BankIndex) @[OuterBuffer.scala 105:26]
+                          when _T_59 : @[OuterBuffer.scala 105:26]
+                            io.BufferIO.DataOut <= Bank_10.io.BankIO.DataOut @[OuterBuffer.scala 116:38]
+                          else :
+                            node _T_60 = eq(UInt<4>("hb"), io.BankIndex) @[OuterBuffer.scala 105:26]
+                            when _T_60 : @[OuterBuffer.scala 105:26]
+                              io.BufferIO.DataOut <= Bank_11.io.BankIO.DataOut @[OuterBuffer.scala 117:38]
+                            else :
+                              node _T_61 = eq(UInt<4>("hc"), io.BankIndex) @[OuterBuffer.scala 105:26]
+                              when _T_61 : @[OuterBuffer.scala 105:26]
+                                io.BufferIO.DataOut <= Bank_12.io.BankIO.DataOut @[OuterBuffer.scala 118:38]
+                              else :
+                                node _T_62 = eq(UInt<4>("hd"), io.BankIndex) @[OuterBuffer.scala 105:26]
+                                when _T_62 : @[OuterBuffer.scala 105:26]
+                                  io.BufferIO.DataOut <= Bank_13.io.BankIO.DataOut @[OuterBuffer.scala 119:38]
+                                else :
+                                  node _T_63 = eq(UInt<4>("he"), io.BankIndex) @[OuterBuffer.scala 105:26]
+                                  when _T_63 : @[OuterBuffer.scala 105:26]
+                                    io.BufferIO.DataOut <= Bank_14.io.BankIO.DataOut @[OuterBuffer.scala 120:38]
+                                  else :
+                                    node _T_64 = eq(UInt<4>("hf"), io.BankIndex) @[OuterBuffer.scala 105:26]
+                                    when _T_64 : @[OuterBuffer.scala 105:26]
+                                      io.BufferIO.DataOut <= Bank_15.io.BankIO.DataOut @[OuterBuffer.scala 121:38]
 
   module KernelBuffer :
     input clock : Clock

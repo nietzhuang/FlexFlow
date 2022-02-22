@@ -4,14 +4,6 @@ import chisel3._
 import chisel3.util._
 
 
-/*class BankIO(bitwidth: Int, depth: Int) extends Bundle {
-  val Enable    = Input(Bool())
-  val DataIn    = Input(UInt(bitwidth.W))
-  val DataAddr  = Input(UInt(log2Up(depth).W))
-  val ReadWrite = Input(Bool())
-  val DataOut   = Output(UInt(bitwidth.W))
-}*/
-
 class IntraBuffer(bitwidth: Int, depth: Int) extends Module {
   val io = IO(new Bundle {
     val BankIO = new BankIO(bitwidth, depth)

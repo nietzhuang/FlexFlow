@@ -19,11 +19,11 @@ class DecoderTester extends AnyFlatSpec with ChiselScalatestTester {
 
       val Mode = 0.U(3.W)
       val Tm = 15.U(4.W)
-      val Tn = 4.U(4.W)
-      val Ti = 1.U(4.W)
-      val Tj = 4.U(4.W)
-      val Tr = 1.U(4.W)
-      val Tc = 1.U(4.W)
+      val Tn = 3.U(4.W)
+      val Ti = 0.U(4.W)
+      val Tj = 3.U(4.W)
+      val Tr = 0.U(4.W)
+      val Tc = 0.U(4.W)
       val Pool = 0.U(2.W)
       val NeuronSize = 7.U(7.W)
 
@@ -35,7 +35,7 @@ class DecoderTester extends AnyFlatSpec with ChiselScalatestTester {
         }
       }.fork{
         // Set commands
-        val Instruction = "b000_1111_0100_0001_0100_0001_0001_00_000".U(32.W)
+        val Instruction = "b000_1111_0011_0000_0011_0000_0000_00_000".U(32.W)
         val NeuronSize = "b0000_0000_0000_0000_0000_0000_0000_0111".U(32.W)
         val Clear = "b0110_0000_0001_0011_0111_1111_0000_0001".U(32.W)
 
@@ -63,15 +63,16 @@ class DecoderTester extends AnyFlatSpec with ChiselScalatestTester {
         }
       }.fork{
         while(CycleCount < MaxCycle) {
+          val Schedule = c.io.SchePort.Schedule.peek
           print("Clock cycle " + CycleCount + ": ")
-          print("\tMode: " + c.io.Mode.peek().litValue)
-          print("\tTm: " + c.io.Schedule.Tm.peek().litValue)
-          print("\tTn: " + c.io.Schedule.Tn.peek().litValue)
-          print("\tTi: " + c.io.Schedule.Ti.peek().litValue)
-          print("\tTj: " + c.io.Schedule.Tj.peek().litValue)
-          print("\tTr: " + c.io.Schedule.Tr.peek().litValue)
-          print("\tTc: " + c.io.Schedule.Tc.peek().litValue)
-          print("\tSize: " + c.io.ScheduleSize.peek().litValue)
+          print("\tMode: " + c.io.SchePort.Mode.peek().litValue)
+          print("\tTm: " + Schedule(23, 20).litValue)
+          print("\tTn: " + Schedule(19, 16).litValue)
+          print("\tTi: " + Schedule(15, 12).litValue)
+          print("\tTj: " + Schedule(11, 8).litValue)
+          print("\tTr: " + Schedule(7, 4).litValue)
+          print("\tTc: " + Schedule(3, 0).litValue)
+          print("\tSize: " + c.io.SchePort.ScheduleSize.peek().litValue)
           println("\tPooling: " + c.io.Pooling.peek().litValue)
 
           c.clock.step()
@@ -79,24 +80,15 @@ class DecoderTester extends AnyFlatSpec with ChiselScalatestTester {
       }.fork{
         while(CycleCount < MaxCycle) {
           if(CycleCount == 2) {
-            c.io.Mode.expect(Mode)
-            c.io.Schedule.Tm.expect(Tm)
-            c.io.Schedule.Tn.expect(Tn)
-            c.io.Schedule.Ti.expect(Ti)
-            c.io.Schedule.Tj.expect(Tj)
-            c.io.Schedule.Tr.expect(Tr)
-            c.io.Schedule.Tc.expect(Tc)
+            val Schedule = c.io.SchePort.Schedule.peek
+            c.io.SchePort.Mode.expect(Mode)
+            c.io.SchePort.Schedule.expect(Schedule) 
             c.io.Pooling.expect(Pool)
           } else if(CycleCount == 3) {
-            c.io.ScheduleSize.expect(NeuronSize)
+            c.io.SchePort.ScheduleSize.expect(NeuronSize)
           } else if(CycleCount == MaxCycle - 1) {
-            c.io.Mode.expect(0.U)
-            c.io.Schedule.Tm.expect(0.U)
-            c.io.Schedule.Tn.expect(0.U)
-            c.io.Schedule.Ti.expect(0.U)
-            c.io.Schedule.Tj.expect(0.U)
-            c.io.Schedule.Tr.expect(0.U)
-            c.io.Schedule.Tc.expect(0.U)
+            c.io.SchePort.Mode.expect(0.U)
+            c.io.SchePort.Schedule.expect(0.U) 
             c.io.Pooling.expect(0.U)
           }
           c.clock.step()

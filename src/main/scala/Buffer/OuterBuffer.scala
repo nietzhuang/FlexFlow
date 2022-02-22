@@ -38,11 +38,7 @@ class OuterBuffer(bitwidth: Int, depth: Int, numBank: Int) extends Module {
   })
 
   // Initiate a number of 1K bank.
-  val BankArray = new Array[Bank](numBank)
-  for(i <- 0 until numBank) {
-    BankArray(i) = Module(new Bank(bitwidth, depth))
-  }
-
+  val BankArray  = Array.fill(numBank) { Module(new Bank(bitwidth, depth)) }
 
   // Set default value
   for(i <- 0 until numBank) {
@@ -120,9 +116,4 @@ class OuterBuffer(bitwidth: Int, depth: Int, numBank: Int) extends Module {
       is(15.U) { io.BufferIO.DataOut := BankArray(15).io.BankIO.DataOut }
     }
   }
-}
-
-
-object OuterBuffer extends App {
-  (new chisel3.stage.ChiselStage).emitVerilog(new OuterBuffer(16, 1024, 16))
 }

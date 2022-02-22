@@ -14,9 +14,8 @@ class ALUArray(
     val ALUPort = Vec(numPECol, new ALUPort(bitwidth, numBank, bankdepth, numPECol))
   })
 
-  val ALUPoolArray = new Array[AluPool](numPECol)
+  val ALUPoolArray = Array.fill(numPECol) { Module(new AluPool(bitwidth, numBank, bankdepth, numPECol)) }
   for(i <- 0 until numPECol) {
-    ALUPoolArray(i) = Module(new AluPool(bitwidth, numBank, bankdepth, numPECol))
     ALUPoolArray(i).io.ALUPort <> io.ALUPort(i)
   }
 }

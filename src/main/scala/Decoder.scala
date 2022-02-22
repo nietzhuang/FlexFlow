@@ -4,22 +4,27 @@ import chisel3._
 import chisel3.util._
 
 
-class SchePacket extends Bundle {
+/*class SchePacket extends Bundle {
   val Tm  = UInt(4.W)
   val Tn  = UInt(4.W)
   val Ti  = UInt(4.W)
   val Tj  = UInt(4.W)
   val Tr  = UInt(4.W)
   val Tc  = UInt(4.W)
+}*/
+
+class SchePort extends Bundle {
+  val Mode          = Input(UInt(3.W))
+  val Schedule      = Input(UInt(24.W))
+  //val Schedule      = Input(new SchePacket)
+  val ScheduleSize  = Input(UInt(7.W))
 }
 
 class Decode(numPERow: Int, numPECol: Int) extends Module {
   val io = IO(new Bundle {
     val Valid         = Input(Bool())
     val Instruction   = Input(UInt(32.W))
-    val Mode          = Output(UInt(3.W))
-    val Schedule      = Output(new SchePacket)
-    val ScheduleSize  = Output(UInt(7.W)) 
+    val SchePort      = Flipped(new SchePort)
     val Pooling       = Output(UInt(2.W))
   })
 
@@ -47,15 +52,11 @@ class Decode(numPERow: Int, numPECol: Int) extends Module {
     SizeReg := 0.U(32.W)
   }
 
-  io.Mode := CommandParamReg(31, 29)
-  io.Schedule.Tm := CommandParamReg(28, 25)
-  io.Schedule.Tn := CommandParamReg(24, 21)
-  io.Schedule.Ti := CommandParamReg(20, 17)
-  io.Schedule.Tj := CommandParamReg(16, 13)
-  io.Schedule.Tr := CommandParamReg(12, 9)
-  io.Schedule.Tc := CommandParamReg(8, 5)
+  //io.Mode := CommandParamReg(31, 29)
+  io.SchePort.Mode := CommandParamReg(31, 29)
+  io.SchePort.Schedule := CommandParamReg(28, 5)
   io.Pooling := CommandParamReg(4, 3)
-  io.ScheduleSize := SizeReg(6, 0)
+  io.SchePort.ScheduleSize := SizeReg(6, 0)
 
 }
 

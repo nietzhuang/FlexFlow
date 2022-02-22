@@ -1,4 +1,7 @@
-//!!! Under development.
+//!! Under development.
+//!! Patterns for different scheduling have to generate.
+//!! The correctness of PE module has to verify further.
+
 
 import chisel3._
 import chisel3.util._
@@ -22,14 +25,14 @@ class PETester extends AnyFlatSpec with ChiselScalatestTester {
     test(new PE(bitwidth, PERowIdx, PEColIdx, numBank, bankdepth, bufdepth)).withAnnotations(Seq(WriteVcdAnnotation)) {c =>
 
       /*
-      val Mode = 2.U(3.W)
-      val Tm = 15.U(4.W)
-      val Tn = 3.U(4.W)
-      val Ti = 0.U(4.W)
-      val Tj = 3.U(4.W)
-      val Tr = 0.U(4.W)
-      val Tc = 0.U(4.W)
-      val Pool = 0.U(2.W)
+      val Mode = 2.U(3.W)  // Load 2
+      val Tm = 15.U(4.W)   // Tm = 16
+      val Tn = 3.U(4.W)    // Tn = 4
+      val Ti = 0.U(4.W)    // Ti = 1
+      val Tj = 3.U(4.W)    // Tj = 4
+      val Tr = 0.U(4.W)    // Tr = 1 
+      val Tc = 0.U(4.W)    // Tc = 1
+      val Pool = 0.U(2.W)  // No pooling
       val NeuronSize = 7.U(7.W)
       */
     
@@ -46,9 +49,9 @@ class PETester extends AnyFlatSpec with ChiselScalatestTester {
      
 
       c.io.Enable.poke(true.B)
-      c.io.Mode.poke(schedule(26, 24))
-      c.io.Schedule.poke(schedule(23, 0))
-      c.io.ScheduleSize.poke(neuronSize(6, 0))
+      c.io.SchePort.Mode.poke(schedule(26, 24))
+      c.io.SchePort.Schedule.poke(schedule(23, 0))
+      c.io.SchePort.ScheduleSize.poke(neuronSize(6, 0))
       fork{
         while(CycleCount < MaxCycle) {
           c.clock.step()
@@ -58,7 +61,7 @@ class PETester extends AnyFlatSpec with ChiselScalatestTester {
         for(i <- 0 until 27) {
           val k = kernelValue.next()
           val kInt = Integer.parseInt(k.trim())
-          c.io.KernelDataIn.poke(kInt.U)
+          c.io.KernelBuf.DataIn.poke(kInt.U)
           c.clock.step()
         }
         c.clock.step()
@@ -66,10 +69,24 @@ class PETester extends AnyFlatSpec with ChiselScalatestTester {
         for(i <- 0 until 75) {
           val n = neuronValue.next()
           val nInt = Integer.parseInt(n.trim())
-          c.io.NeuronDataIn.poke(nInt.U)
+          c.io.NeuronBuf.DataIn.poke(nInt.U)
           c.clock.step()
         }
         c.clock.step()
+      }.fork{
+        while(CycleCount < MaxCycle) {
+          print("Kernel: ")
+          print("\tAddress: " + c.io.KernelBuf.Addr.peek.litValue)
+          println("\tIndex: " + c.io.KernelBuf.BankIdx.peek.litValue)
+          //KernelBufRW
+          //KernelBufEn`
+          print("Neuron: ")
+          print("\tAddress: " + c.io.NeuronBuf.Addr.peek.litValue)
+          println("\tIndex: " + c.io.NeuronBuf.BankIdx.peek.litValue)
+          println()
+
+          c.clock.step()
+        }
       }.join()
 
 

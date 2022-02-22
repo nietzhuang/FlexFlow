@@ -1,4 +1,4 @@
-[0m[[0m[31merror[0m] [0m[0m/Users/nietzhuang/Desktop/FlexFlow/src/main/scala/Buffer/OuterBuffer.scala:103:3: Unmatched closing brace '}' ignored here[0m
-[0m[[0m[31merror[0m] [0m[0m  }.otherwise{[0m
-[0m[[0m[31merror[0m] [0m[0m  ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/nietzhuang/Desktop/FlexFlow/src/main/scala/TOP.scala:49:29: value io is not a member of object flexflow.pe.PE[0m
+[0m[[0m[31merror[0m] [0m[0m  Decoder.io.SchePort <> PE.io.SchePort[0m
+[0m[[0m[31merror[0m] [0m[0m                            ^[0m
 [0m[[0m[31merror[0m] [0m[0mone error found[0m

@@ -6,35 +6,32 @@ import flexflow.util._
 import flexflow.buffer
 
 
+class IntraBufferIO(bufdepth: Int) extends Bundle {
+  val Enable    = Output(Bool())
+  val ReadWrite = Output(Bool())
+  val DataAddr  = Output(UInt(log2Up(bufdepth).W))
+}
+
 class PECtrl(
-  //numPERow: Int,  // 16
-  //numPECol: Int,  // 16
+  //numPERow: Int,
+  //numPECol: Int,
+  bitwidth: Int,
   PERowIdx: UInt,  // PEi
   PEColIdx: UInt,  // PEj
-  numBank: Int,   // 16
-  bankdepth: Int,      // bank depth 1K
-  bufdepth: Int   // Intra buffer depth 128 
+  numBank: Int, 
+  bankdepth: Int,
+  bufdepth: Int 
 ) extends Module {
   //require(PERowIdx.litValue <= numBank)
   //require(PEColIdx.litValue <= numBank)
   
   val io = IO(new Bundle {
-    val Mode            = Input(UInt(3.W))
-    val Schedule        = Input(UInt(24.W)) 
-    val ScheduleSize    = Input(UInt(7.W))
-    val KernelAddr      = Output(UInt(log2Up(bankdepth).W))
-    val KernelBankIdx   = Output(UInt(log2Up(numBank).W))
-    val KernelBufRW     = Output(Bool())
-    val KernelBufEn     = Output(Bool())
-    val NeuronAddr      = Output(UInt(log2Up(bankdepth).W))
-    val NeuronBankIdx   = Output(UInt(log2Up(numBank).W))
-    val NeuronBufRW     = Output(Bool())
-    val NeuronBufEn     = Output(Bool())
-    val KernelIntraAddr = Output(UInt(log2Up(bufdepth).W))
-    val KernelIntraRW   = Output(Bool())
-    val NeuronIntraAddr = Output(UInt(log2Up(bufdepth).W))
-    val NeuronIntraRW   = Output(Bool())
-    val MacEnable       = Output(Bool())
+    val SchePort      = new SchePort
+    val KernelBuf     = new OuterBufferIO(bitwidth, bankdepth, numBank) 
+    val NeuronBuf     = new OuterBufferIO(bitwidth, bankdepth, numBank)
+    val KernelIntra   = new IntraBufferIO(bufdepth)
+    val NeuronIntra   = new IntraBufferIO(bufdepth) 
+    val MacEnable     = Output(Bool())
     //val Neuron2Addr     = Output(UInt(log2Up(bankdepth).W))
     //val PsumAddr        = Output(UInt(log2Up(bankdepth).W))
   }) 
@@ -43,13 +40,13 @@ class PECtrl(
   val stateReg = RegInit(init)
 
   // Decode the dataflow parameters
-  val NeuronSize = io.ScheduleSize
-  val Tm = io.Schedule(23, 20) + 1.U
-  val Tn = io.Schedule(19, 16) + 1.U
-  val Ti = io.Schedule(15, 12) + 1.U
-  val Tj = io.Schedule(11, 8) + 1.U
-  val Tr = io.Schedule(7, 4) + 1.U
-  val Tc = io.Schedule(3, 0) + 1.U
+  val NeuronSize = io.SchePort.ScheduleSize
+  val Tm = io.SchePort.Schedule(23, 20) + 1.U
+  val Tn = io.SchePort.Schedule(19, 16) + 1.U
+  val Ti = io.SchePort.Schedule(15, 12) + 1.U
+  val Tj = io.SchePort.Schedule(11, 8) + 1.U
+  val Tr = io.SchePort.Schedule(7, 4) + 1.U
+  val Tc = io.SchePort.Schedule(3, 0) + 1.U
 
   val GroupRowIdx = PERowIdx / (Tr * Tc)
   val GroupColIdx = PEColIdx / (Ti * Tj)
@@ -79,7 +76,7 @@ class PECtrl(
   val cntHold = RegInit(0.U)
 
   // Event for reading from outter buffer to local store.
-  val Load2 = (io.Mode === 2.U)  
+  val Load2 = (io.SchePort.Mode === 2.U)  
   val KernelReadDone = RegInit(false.B)
   val NeuronReadDone = RegInit(false.B)
   val Load2Done = (KernelReadDone & NeuronReadDone)
@@ -109,60 +106,65 @@ class PECtrl(
       }
     }
   }
-
-  io.KernelAddr := 0.U 
-  io.KernelBankIdx := 0.U
-  io.KernelBufRW := false.B
-  io.KernelBufEn := false.B
-  io.KernelIntraAddr := 0.U
-  io.KernelIntraRW := false.B
-  io.NeuronAddr := 0.U 
-  io.NeuronBankIdx := 0.U
-  io.NeuronBufRW := false.B
-  io.NeuronBufEn := false.B
-  io.NeuronIntraAddr := 0.U
-  io.NeuronIntraRW := false.B
+  
+  io.KernelBuf.Addr := 0.U 
+  io.KernelBuf.BankIdx := 0.U
+  io.KernelBuf.ReadWrite := false.B
+  io.KernelBuf.Enable := false.B
+  io.KernelIntra.DataAddr := 0.U
+  io.KernelIntra.ReadWrite := false.B
+  io.KernelIntra.Enable := false.B
+  io.NeuronBuf.Addr := 0.U 
+  io.NeuronBuf.BankIdx := 0.U
+  io.NeuronBuf.ReadWrite := false.B
+  io.NeuronBuf.Enable := false.B
+  io.NeuronIntra.DataAddr := 0.U
+  io.NeuronIntra.ReadWrite := false.B
+  io.NeuronIntra.Enable := false.B
   io.MacEnable := false.B
   //io.Neuron2Addr := 0.U
   //io.PsumAddr := 0.U
   switch(stateReg) {
     is(init) {
-      io.KernelAddr := 0.U 
-      io.KernelBankIdx := 0.U
-      io.KernelBufRW := false.B
-      io.KernelBufEn := false.B
-      io.KernelIntraAddr := 0.U
-      io.KernelIntraRW := false.B
-      io.NeuronAddr := 0.U 
-      io.NeuronBankIdx := 0.U
-      io.NeuronBufRW := false.B
-      io.NeuronBufEn := false.B
-      io.NeuronIntraAddr := 0.U
-      io.NeuronIntraRW := false.B
+      io.KernelBuf.Addr := 0.U 
+      io.KernelBuf.BankIdx := 0.U
+      io.KernelBuf.ReadWrite := false.B
+      io.KernelBuf.Enable := false.B
+      io.KernelIntra.DataAddr := 0.U
+      io.KernelIntra.ReadWrite := false.B
+      io.KernelIntra.Enable := false.B
+      io.NeuronBuf.Addr := 0.U 
+      io.NeuronBuf.BankIdx := 0.U
+      io.NeuronBuf.ReadWrite := false.B
+      io.NeuronBuf.Enable := false.B
+      io.NeuronIntra.DataAddr := 0.U
+      io.NeuronIntra.ReadWrite := false.B
+      io.NeuronIntra.Enable := false.B
       KernelReadDone := false.B
       NeuronReadDone := false.B
       macDone := false.B
     }
     is(readouter) {
-      io.KernelBufRW := false.B  //!!  constant ?
-      io.KernelBufEn := true.B
-      io.KernelIntraRW := true.B
-      io.NeuronBufRW := false.B 
-      io.NeuronBufEn := true.B
-      io.NeuronIntraRW := true.B
+      io.KernelBuf.ReadWrite := false.B  //!!  constant ?
+      io.KernelBuf.Enable := true.B
+      io.KernelIntra.ReadWrite := true.B
+      io.NeuronBuf.ReadWrite := false.B 
+      io.NeuronBuf.Enable := true.B
+      io.NeuronIntra.ReadWrite := true.B
 
       // Kernel Control
       when(KernelReadDone === false.B) {
+        io.KernelIntra.Enable := true.B
         when(cntKBufAddr < KernelBoundary) { 
-          io.KernelAddr := cntKBufAddr 
-          io.KernelBankIdx := cntKBufBank
-          io.KernelIntraAddr := KernelSlotPtr
+          io.KernelBuf.Addr := cntKBufAddr 
+          io.KernelBuf.BankIdx := cntKBufBank
+          io.KernelIntra.DataAddr := KernelSlotPtr
 
           cntKBufAddr := cntKBufAddr + 1.U
         }.otherwise { 
-          io.KernelAddr := 0.U
-          io.KernelBankIdx := cntKBufBank + 1.U
-          io.KernelIntraAddr := KernelSlotPtr
+          io.KernelBuf.Addr := 0.U
+          io.KernelBuf.BankIdx := cntKBufBank + 1.U
+          io.KernelIntra.DataAddr := KernelSlotPtr
 
           cntKBufAddr := 0.U
           cntKBufBank := cntKBufBank + 1.U
@@ -179,10 +181,11 @@ class PECtrl(
 
       // Neuron Control
       when(NeuronReadDone === false.B) {
+        io.NeuronIntra.Enable := true.B
         when(cntNBufAddr < NeuronBoundary) {
-          io.NeuronAddr := cntNBufAddr
-          io.NeuronBankIdx := cntNBufBank
-          io.NeuronIntraAddr := NeuronSlotPtr
+          io.NeuronBuf.Addr := cntNBufAddr
+          io.NeuronBuf.BankIdx := cntNBufBank
+          io.NeuronIntra.DataAddr := NeuronSlotPtr
         
           cntNBufAddr := cntNBufAddr + 1.U
         }
@@ -197,23 +200,23 @@ class PECtrl(
       }
     }
     is(mac) {
-      io.KernelBufEn := false.B
-      io.KernelIntraRW := false.B
-      io.NeuronBufEn := false.B
-      io.NeuronIntraRW := false.B
+      io.KernelBuf.Enable := false.B
+      io.KernelIntra.ReadWrite := false.B
+      io.NeuronBuf.Enable := false.B
+      io.NeuronIntra.ReadWrite := false.B
       io.MacEnable := true.B
       cntHold := cntHoldBase
       NeuronSlotPtr := (tj < tc).asUInt
       when(macDone === false.B) {
         // Kernel Control
         when((KernelSlotPtr + PEColIdx + tc * (Tj - 1.U)) < Tj) {
-          io.KernelIntraAddr := KernelSlotPtr + PEColIdx + tc * (Tj - 1.U)
+          io.KernelIntra.DataAddr := KernelSlotPtr + PEColIdx + tc * (Tj - 1.U)
         }
         .otherwise {
-          io.KernelIntraAddr := KernelSlotPtr + PEColIdx + tc * (Tj - 1.U) - Tj
+          io.KernelIntra.DataAddr := KernelSlotPtr + PEColIdx + tc * (Tj - 1.U) - Tj
         }
         //io.KernelIntraAddr := io.KernelIntraAddr + Tr
-        KernelSlotPtr := io.KernelIntraAddr + Tr
+        KernelSlotPtr := io.KernelIntra.DataAddr + Tr
 
 
         // Neuron Control
@@ -227,7 +230,7 @@ class PECtrl(
           NeuronSlotPtr := NeuronSlotPtr
           cntHold := 0.U
         }
-        io.NeuronIntraAddr := NeuronSlotPtr
+        io.NeuronIntra.DataAddr := NeuronSlotPtr
   
         cntMac := cntMac + 1.U
 
@@ -243,7 +246,7 @@ class PECtrl(
 
 }
 
-
+/*
 object PECtrl extends App {
-  (new chisel3.stage.ChiselStage).emitVerilog(new PECtrl(0.U, 0.U, 16, 1024, 128))
-}
+  (new chisel3.stage.ChiselStage).emitVerilog(new PECtrl(16, 0.U, 0.U, 16, 1024, 128), Array("--target-dir", "./generated/"))
+}*/

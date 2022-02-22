@@ -21,41 +21,40 @@
   },
   {
     "class":"firrtl.transforms.CombinationalPath",
-    "sink":"~PE|PE>io_NeuronAddr",
-    "sources":[
-      "~PE|PE>io_ScheduleSize",
-      "~PE|PE>io_Schedule"
-    ]
-  },
-  {
-    "class":"firrtl.transforms.CombinationalPath",
-    "sink":"~PE|PE>io_KernelBankIdx",
-    "sources":[
-      "~PE|PE>io_Schedule"
-    ]
-  },
-  {
-    "class":"firrtl.transforms.CombinationalPath",
-    "sink":"~PE|PE>io_KernelAddr",
-    "sources":[
-      "~PE|PE>io_Schedule"
-    ]
-  },
-  {
-    "class":"firrtl.transforms.CombinationalPath",
     "sink":"~PE|PE>io_DataOut",
     "sources":[
-      "~PE|PE>io_Enable",
-      "~PE|PE>io_Schedule",
-      "~PE|PE>io_ScheduleSize"
+      "~PE|PE>io_SchePort_Schedule",
+      "~PE|PE>io_SchePort_ScheduleSize"
     ]
   },
   {
     "class":"firrtl.transforms.CombinationalPath",
-    "sink":"~PE|PE>io_NeuronBankIdx",
+    "sink":"~PE|PE>io_NeuronBuf_Addr",
     "sources":[
-      "~PE|PE>io_ScheduleSize",
-      "~PE|PE>io_Schedule"
+      "~PE|PE>io_SchePort_ScheduleSize",
+      "~PE|PE>io_SchePort_Schedule"
+    ]
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~PE|PE>io_KernelBuf_Addr",
+    "sources":[
+      "~PE|PE>io_SchePort_Schedule"
+    ]
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~PE|PE>io_NeuronBuf_BankIdx",
+    "sources":[
+      "~PE|PE>io_SchePort_ScheduleSize",
+      "~PE|PE>io_SchePort_Schedule"
+    ]
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~PE|PE>io_KernelBuf_BankIdx",
+    "sources":[
+      "~PE|PE>io_SchePort_Schedule"
     ]
   }
 ]

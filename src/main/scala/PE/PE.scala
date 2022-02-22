@@ -5,6 +5,24 @@ import chisel3.util._
 import flexflow.buffer._
 
 
+class OuterBufferIO(
+  bitwidth: Int,
+  bankdepth: Int,
+  numBank: Int
+) extends Bundle {
+    val Enable    = Output(Bool())
+    val ReadWrite = Output(Bool())
+    val Addr      = Output(UInt(log2Up(bankdepth).W))
+    val DataIn    = Input(UInt(bitwidth.W))
+    val BankIdx   = Output(UInt(log2Up(numBank).W))
+}
+
+class SchePort extends Bundle {
+  val Mode          = Input(UInt(3.W))
+  val Schedule      = Input(UInt(24.W))  // from decoder (assume maximum is 15)
+  val ScheduleSize  = Input(UInt(7.W))
+}
+
 class PE(
   bitwidth: Int, 
   PERowIdx: UInt, 
@@ -15,51 +33,35 @@ class PE(
 ) extends Module {
   val io = IO(new Bundle {
     val Enable        = Input(Bool())
-    val Mode          = Input(UInt(3.W))
-    val Schedule      = Input(UInt(24.W))  // from decoder (assume maximum is 15)
-    val ScheduleSize  = Input(UInt(7.W))  
-    val KernelAddr    = Output(UInt(log2Up(bankdepth).W))
-    val KernelBankIdx = Output(UInt(log2Up(numBank).W))
-    val KernelDataIn  = Input(UInt(bitwidth.W))
-    val KernelBufRW   = Output(Bool())
-    val KernelBufEn   = Output(Bool())
-    val NeuronAddr    = Output(UInt(log2Up(bankdepth).W))
-    val NeuronBankIdx = Output(UInt(log2Up(numBank).W))
-    val NeuronDataIn  = Input(UInt(bitwidth.W))
-    val NeuronBufRW   = Output(Bool())
-    val NeuronBufEn   = Output(Bool())
+    val SchePort      = new SchePort
+    val KernelBuf     = new OuterBufferIO(bitwidth, bankdepth, numBank) 
+    val NeuronBuf     = new OuterBufferIO(bitwidth, bankdepth, numBank)
     val DataOut       = Output(UInt(bitwidth.W))
   })
 
   val kernelintra = Module(new IntraBuffer(bitwidth, bufdepth))
   val neuronintra = Module(new IntraBuffer(bitwidth, bufdepth))
   //val Mac = Module(new flexflow.pe.mac.Mac(bitwidth))
-  val PECtrl = Module(new PECtrl(PERowIdx, PEColIdx, numBank, bankdepth, bufdepth))
+  val PECtrl = Module(new PECtrl(bitwidth, PERowIdx, PEColIdx, numBank, bankdepth, bufdepth))
   
   //
-  PECtrl.io.Mode := io.Mode 
-  PECtrl.io.Schedule := io.Schedule
-  PECtrl.io.ScheduleSize := io.ScheduleSize
+  PECtrl.io.SchePort <> io.SchePort
 
   // Outer Buffer Connections
-  io.KernelAddr := PECtrl.io.KernelAddr
-  io.KernelBankIdx := PECtrl.io.KernelBankIdx
-  io.KernelBufRW := PECtrl.io.KernelBufRW
-  io.KernelBufEn := PECtrl.io.KernelBufEn
-  io.NeuronAddr := PECtrl.io.NeuronAddr 
-  io.NeuronBankIdx := PECtrl.io.NeuronBankIdx
-  io.NeuronBufRW := PECtrl.io.NeuronBufRW
-  io.NeuronBufEn := PECtrl.io.NeuronBufEn
+  io.KernelBuf <> PECtrl.io.KernelBuf
+  io.NeuronBuf <> PECtrl.io.NeuronBuf
 
   //Intra Buffer Connections
-  kernelintra.io.BankIO.Enable := io.Enable
-  kernelintra.io.BankIO.DataIn := io.KernelDataIn
-  kernelintra.io.BankIO.DataAddr := PECtrl.io.KernelIntraAddr
-  kernelintra.io.BankIO.ReadWrite := PECtrl.io.KernelIntraRW
-  neuronintra.io.BankIO.Enable := io.Enable
-  neuronintra.io.BankIO.DataIn := io.NeuronDataIn
-  neuronintra.io.BankIO.DataAddr := PECtrl.io.NeuronIntraAddr
-  neuronintra.io.BankIO.ReadWrite := PECtrl.io.NeuronIntraRW
+  //kernelintra.io.BankIO <> PECtrl.io.KernelIntra
+  //neuronintra.io.BankIO <> PECtrl.io.NeuronIntra
+  kernelintra.io.BankIO.Enable := PECtrl.io.KernelIntra.Enable
+  kernelintra.io.BankIO.DataIn := io.KernelBuf.DataIn
+  kernelintra.io.BankIO.DataAddr := PECtrl.io.KernelIntra.DataAddr
+  kernelintra.io.BankIO.ReadWrite := PECtrl.io.KernelIntra.ReadWrite
+  neuronintra.io.BankIO.Enable := PECtrl.io.NeuronIntra.Enable
+  neuronintra.io.BankIO.DataIn := io.NeuronBuf.DataIn
+  neuronintra.io.BankIO.DataAddr := PECtrl.io.NeuronIntra.DataAddr
+  neuronintra.io.BankIO.ReadWrite := PECtrl.io.NeuronIntra.ReadWrite
 
   when(PECtrl.io.MacEnable === true.B) {
     io.DataOut := kernelintra.io.BankIO.DataOut * neuronintra.io.BankIO.DataOut
